@@ -46,7 +46,6 @@
     "gulp": "^3.9.1",
     "gulp-nodemon": "^2.1.0",
     "gulp-sass": "^2.3.2",
-    "gulp-tape": "0.0.9",
     "gulp-uglify": "^2.0.0",
     "gulp-useref": "^3.1.0",
     "jasmine": "^2.4.1",
@@ -59,6 +58,5 @@
     "sinon": "^1.17.4",
     "superagent": "^2.1.0",
     "supertest": "^2.0.0",
-    "tape": "^4.6.0"
   }
 }
