@@ -1,4 +1,3 @@
-var logger = require(./frontend-logger);
 var routerApp = angular.module('routerApp', ['ui.router']);
 
 routerApp.config(function($stateProvider, $urlRouterProvider) {
@@ -26,7 +25,10 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
       url: '/student',
       views: {
         '': { templateUrl: 'partial-about.html' },
-        'columnOne@student': { template: 'The selected student is: ' },
+        'columnOne@student': {
+          templateUrl: 'selected-data.html',
+          controller: 'studentsController'
+        },
         'columnTwo@student': {
           templateUrl: 'table-data.html',
           controller: 'studentsController'
@@ -36,11 +38,11 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
 });
 
 routerApp.controller('homeController', ['$scope', '$http', function($scope, $http) {
-  logger('home', level, new Date());
+  logger('home', process.env.LOGGING_LEVEL, new Date());
 }]);
 
 routerApp.controller('studentsController', ['$scope', '$http', function($scope, $http) {
-  logger('students', level, new Date());
+  logger('students', process.env.LOGGING_LEVEL, new Date());
   $scope.students = [
     {
       name: 'Shirinbekov Oleg',
