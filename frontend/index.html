@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="myApp">
+<html lang="en" ng-app="routerApp">
   <head>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <style>
@@ -10,17 +10,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js"></script>
     <script src="app/app.js"></script>
+    <script src="/app/frontend-logger.js"></script>
   </head>
 
-  <body ng-app="routerApp">
-    
+  <body>
+
     <nav class="navbar navbar-inverse" role="navigation">
       <div class="navbar-header">
-        <a class="navbar-brand" ui-sref="#">AngularUI Router</a>
+        <a class="navbar-brand" ui-sref="http://www.greenfoxacademy.com/">Green Fox</a>
       </div>
       <ul class="nav navbar-nav">
         <li><a ui-sref="home">Home</a></li>
-        <li><a ui-sref="about">About</a></li>
+        <li><a ui-sref="student">Students</a></li>
       </ul>
     </nav>
 
