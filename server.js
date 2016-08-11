@@ -18,8 +18,8 @@ function newApp(connection) {
   var myDataBase = db(connection);
 
   app.get('/heartbeat', function(req, res) {
-      myDataBase.checkHeartBeat(function(result) {
-        if (result.length !== 0) {
+      myDataBase.checkHeartBeat(function(err, result) {
+        if (!err && result.length !== 0) {
           res.send(result);
         } else {
           res.sendStatus(500)
