@@ -1,4 +1,4 @@
-// 'use strict';
+'use strict';
 
 var Database = function(connection) {
   function errorHandler(err) {
@@ -11,7 +11,7 @@ var Database = function(connection) {
   function checkHeartBeat(cb) {
     connection.query('SELECT * FROM heartbeat;', function(err, rows) {
       errorHandler(err);
-      cb(rows);
+      cb(err, rows);
     });
   }
 
