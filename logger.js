@@ -1,30 +1,37 @@
 'use strict';
 
-// var LOG_LEVEL = { debug: 1, info: 2, warn: 3, error: 4 };
 var loggingLevel = 1;
 
-var logger = function() {
-  function debug(debugLogText, level) {
-    if (loggingLevel >= level) {
-      console.log(new Date() + debugLogText);
+var logger = function(consol) {
+  function setDate(date) {
+    var logDate = new Date();
+    if (date) {
+      logDate = date;
+    }
+    return logDate;
+  }
+
+  function debug(text, level, date) {
+    if (loggingLevel <= level) {
+      consol(setDate(date) + text);
     }
   }
 
-  function info(infoLogText, level) {
-    if (loggingLevel >= level) {
-      console.log(new Date() + infoLogText);
+  function info(text, level, date) {
+    if (loggingLevel <= level) {
+      consol(setDate(date) + text);
     }
   }
 
-  function warn(warnLogText, level) {
-    if (loggingLevel >= level) {
-      console.log(new Date() + warnLogText);
+  function warn(text, level, date) {
+    if (loggingLevel <= level) {
+      consol(setDate(date) + text);
     }
   }
 
-  function error(errorLogText, level) {
-    if (loggingLevel >= level) {
-      console.log(new Date() + errorLogText);
+  function error(text, level, date) {
+    if (loggingLevel <= level) {
+      consol(setDate(date) + text);
     }
   }
 
