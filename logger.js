@@ -3,7 +3,7 @@
 var dotenv = require('dotenv');
 dotenv.load();
 
-var logger = function(consol, envLogging) {
+var logger = function(currentConsol, envLogging) {
   function setDate(date) {
     var logDate = new Date();
     if (date) {
@@ -14,25 +14,25 @@ var logger = function(consol, envLogging) {
 
   function debug(text, date) {
     if (envLogging <= 0) {
-      consol(setDate(date) + ' ' + text);
+      currentConsol(setDate(date) + ' ' + text);
     }
   }
 
   function info(text, date) {
     if (envLogging <= 1) {
-      consol(setDate(date) + ' ' + text);
+      currentConsol(setDate(date) + ' ' + text);
     }
   }
 
   function warn(text, date) {
     if (envLogging <= 2) {
-      consol(setDate(date) + ' ' + text);
+      currentConsol(setDate(date) + ' ' + text);
     }
   }
 
   function error(text, date) {
     if (envLogging <= 3) {
-      consol(setDate(date) + ' ' + text);
+      currentConsol(setDate(date) + ' ' + text);
     }
   }
 
