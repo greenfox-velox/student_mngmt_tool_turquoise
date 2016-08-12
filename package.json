@@ -8,7 +8,6 @@
     "test": "node test",
     "lint": "eslint --cache ."
   },
-  /*"precommit": "lint, test",*/
   "repository": {
     "type": "git",
     "url": "git+https://github.com/greenfox-velox/student_mngmt_tool_turquoise.git"
