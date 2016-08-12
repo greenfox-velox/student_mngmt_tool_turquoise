@@ -3,36 +3,35 @@
 var dotenv = require('dotenv');
 dotenv.load();
 
-var logger = function(currentConsol, envLogging) {
+var logger = function(targetConsole, envLoggingLevel) {
+  var loggingLevel = envLoggingLevel || 1;
+  var currentConsole = targetConsole || console.log;
+
   function setDate(date) {
-    var logDate = new Date();
-    if (date) {
-      logDate = date;
-    }
-    return logDate;
+    return date || new Date();
   }
 
   function debug(text, date) {
-    if (envLogging <= 0) {
-      currentConsol(setDate(date) + ' ' + text);
+    if (loggingLevel <= 0) {
+      currentConsole(setDate(date) + ' ' + text);
     }
   }
 
   function info(text, date) {
-    if (envLogging <= 1) {
-      currentConsol(setDate(date) + ' ' + text);
+    if (loggingLevel <= 1) {
+      currentConsole(setDate(date) + ' ' + text);
     }
   }
 
   function warn(text, date) {
-    if (envLogging <= 2) {
-      currentConsol(setDate(date) + ' ' + text);
+    if (loggingLevel <= 2) {
+      currentConsole(setDate(date) + ' ' + text);
     }
   }
 
   function error(text, date) {
-    if (envLogging <= 3) {
-      currentConsol(setDate(date) + ' ' + text);
+    if (loggingLevel <= 3) {
+      currentConsole(setDate(date) + ' ' + text);
     }
   }
 
