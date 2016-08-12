@@ -5,8 +5,10 @@
   "main": "main.js",
   "scripts": {
     "start": "node main",
-    "test": "node test"
+    "test": "node test",
+    "lint": "eslint --cache ."
   },
+  /*"precommit": "lint, test",*/
   "repository": {
     "type": "git",
     "url": "git+https://github.com/greenfox-velox/student_mngmt_tool_turquoise.git"
@@ -56,6 +58,7 @@
     "karma-chrome-launcher": "^1.0.1",
     "karma-jasmine": "^1.0.2",
     "mocha": "^3.0.0",
+    "pre-commit": "^1.1.3",
     "run-sequence": "^1.2.2",
     "sinon": "^1.17.4",
     "supertest": "^2.0.0"
