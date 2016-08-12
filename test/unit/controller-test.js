@@ -17,7 +17,7 @@ describe('studentsController', function() {
     };
   }));
 
-  it ('defining students', function() {
+  it('defining students', function() {
     createController();
     expect(scope.students).toBeDefined();
   });
