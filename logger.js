@@ -3,8 +3,9 @@
 var dotenv = require('dotenv');
 dotenv.load();
 
-var logger = function(targetConsole, envLoggingLevel) {
-  var loggingLevel = envLoggingLevel || process.env.LOGGING_LEVEL || 1;
+var logger = function(targetConsole, inputLoggingLevel) {
+  var levelsOfLogging = {debug: 0, info: 1, warn: 2, error: 3};
+  var loggingLevel = inputLoggingLevel || process.env.LOGGING_LEVEL || levelsOfLogging.info;
   var currentConsole = targetConsole || console.log;
 
   function setDate(date) {
@@ -12,25 +13,25 @@ var logger = function(targetConsole, envLoggingLevel) {
   }
 
   function debug(text, date) {
-    if (loggingLevel <= 0) {
+    if (loggingLevel <= levelsOfLogging.debug) {
       currentConsole(setDate(date) + ' ' + text);
     }
   }
 
   function info(text, date) {
-    if (loggingLevel <= 1) {
+    if (loggingLevel <= levelsOfLogging.info) {
       currentConsole(setDate(date) + ' ' + text);
     }
   }
 
   function warn(text, date) {
-    if (loggingLevel <= 2) {
+    if (loggingLevel <= levelsOfLogging.warn) {
       currentConsole(setDate(date) + ' ' + text);
     }
   }
 
   function error(text, date) {
-    if (loggingLevel <= 3) {
+    if (loggingLevel <= levelsOfLogging.error) {
       currentConsole(setDate(date) + ' ' + text);
     }
   }
