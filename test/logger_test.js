@@ -6,8 +6,8 @@ describe('Test logging with different logging level.', function() {
   it('Logging info when logging level is match(1)', function(done) {
     var mockConsole = sinon.spy();
     var mockLogger = logger(mockConsole, 1);
-    mockLogger.info('test log text', 'Thu Aug 11 2016 14:46:57 GMT+0200 (CEST)');
-    assert.ok(mockConsole.calledWithMatch('Thu Aug 11 2016 14:46:57 GMT+0200 (CEST) test log text'));
+    mockLogger.info('test log text', 'date');
+    assert.ok(mockConsole.calledWithMatch('date test log text'));
     done();
   });
   it('Logging info when logging level is lower than required', function(done) {

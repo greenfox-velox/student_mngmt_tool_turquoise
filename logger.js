@@ -4,7 +4,7 @@ var dotenv = require('dotenv');
 dotenv.load();
 
 var logger = function(targetConsole, envLoggingLevel) {
-  var loggingLevel = envLoggingLevel || 1;
+  var loggingLevel = envLoggingLevel || process.env.LOGGING_LEVEL || 1;
   var currentConsole = targetConsole || console.log;
 
   function setDate(date) {

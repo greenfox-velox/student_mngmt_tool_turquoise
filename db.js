@@ -1,6 +1,6 @@
 'use strict';
 
-var logger = require('./logger')(console.log, process.env.LOGGING_LEVEL);
+var logger = require('./logger')();
 
 var Database = function(connection) {
   function errorHandler(err) {
