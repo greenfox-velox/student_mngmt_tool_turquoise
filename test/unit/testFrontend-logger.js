@@ -1,31 +1,19 @@
-  // testing controller
 describe('testFrontend-logger', function() {
-  var $httpBackend, $rootScope, createController;
-  var scope;
+  var $httpBackend, logger;
 
-  // Set up the module
   beforeEach(module('managementApp'));
 
   beforeEach(inject(function($injector) {
-    // Set up the mock http service responses
+
     $httpBackend = $injector.get('$httpBackend');
-    // backend definition common for all tests
+
     $httpBackend.when('GET', '')
       .respond({});
     $httpBackend.when('POST', '/api/log')
-      .respond({ level: 1, debugLogText: 'home', date: new Date(), location: 'frontend' });
-    // Get hold of a scope (i.e. the root scope)
-    $rootScope = $injector.get('$rootScope');
-    // The $controller service is used to create instances of controllers
-    var logger = $injector.get('logger');
+      .respond({ level: 'info', debugLogText: 'Hey', location: 'frontend' });
 
-    // "logger", function($http)
-    // var $controller = $injector.get('$controller');
+    logger = $injector.get('logger');
 
-    // createController = function() {
-    //   scope = $rootScope.$new();
-    //   return $controller('mealController', {'$scope' : scope });
-    // };
   }));
 
   afterEach(function() {
@@ -33,10 +21,25 @@ describe('testFrontend-logger', function() {
     $httpBackend.verifyNoOutstandingRequest();
   });
 
-
-  it('should test post /api/log', function() {
+  it('should test logger.debug', function() {
+    logLevel = 0;
+    logger.debug('Hey');
+    $httpBackend.expectPOST('/api/log');
+    $httpBackend.flush();
+  });
+  it('should test logger.info', function() {
     logger.info('Hey');
-    $httpBackend.expectPOST('/api/log', { level: 1, debugLogText: 'home', date: new Date(), location: 'frontend' });
+    $httpBackend.expectPOST('/api/log');
+    $httpBackend.flush();
+  });
+  it('should test logger.warn', function() {
+    logger.warn('Hey');
+    $httpBackend.expectPOST('/api/log');
+    $httpBackend.flush();
+  });
+  it('should test logger.error', function() {
+    logger.error('Hey');
+    $httpBackend.expectPOST('/api/log');
     $httpBackend.flush();
   });
 });
