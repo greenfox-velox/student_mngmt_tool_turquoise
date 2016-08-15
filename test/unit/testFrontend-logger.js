@@ -9,7 +9,7 @@ describe('testFrontend-logger', function() {
 
     $httpBackend.when('GET', '')
       .respond({});
-    $httpBackend.when('POST', '/api/log')
+    $httpBackend.when('POST', 'https://student-mngmt-tool.herokuapp.com/api/log')
       .respond({ level: 'info', debugLogText: 'Hey', location: 'frontend' });
 
     logger = $injector.get('logger');
@@ -24,22 +24,22 @@ describe('testFrontend-logger', function() {
   it('should test logger.debug', function() {
     logLevel = 0;
     logger.debug('Hey');
-    $httpBackend.expectPOST('/api/log');
+    $httpBackend.expectPOST('https://student-mngmt-tool.herokuapp.com/api/log');
     $httpBackend.flush();
   });
   it('should test logger.info', function() {
     logger.info('Hey');
-    $httpBackend.expectPOST('/api/log');
+    $httpBackend.expectPOST('https://student-mngmt-tool.herokuapp.com/api/log');
     $httpBackend.flush();
   });
   it('should test logger.warn', function() {
     logger.warn('Hey');
-    $httpBackend.expectPOST('/api/log');
+    $httpBackend.expectPOST('https://student-mngmt-tool.herokuapp.com/api/log');
     $httpBackend.flush();
   });
   it('should test logger.error', function() {
     logger.error('Hey');
-    $httpBackend.expectPOST('/api/log');
+    $httpBackend.expectPOST('https://student-mngmt-tool.herokuapp.com/api/log');
     $httpBackend.flush();
   });
 });
