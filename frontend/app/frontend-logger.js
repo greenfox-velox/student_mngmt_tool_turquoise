@@ -3,8 +3,8 @@ var managementApp = angular.module("managementApp");
 var logLevel = 1;
 
 managementApp.factory("logger", function($http) {
-  var loggerPost = function(debugLogText, level, date) {
-    $http.post('/api/log', { level: level, debugLogText: debugLogText, date: new date(), location: 'frontend' })
+  var loggerPost = function(debugLogText, level) {
+    $http.post('/api/log', { level: level, debugLogText: debugLogText, date: new Date(), location: 'frontend' })
     .success(function(data) {});
   };
   return {
