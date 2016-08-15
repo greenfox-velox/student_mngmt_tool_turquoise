@@ -38,11 +38,11 @@ managementApp.config(function($stateProvider, $urlRouterProvider) {
 });
 
 managementApp.controller('homeController', ['$scope', '$http', 'logger', function($scope, $http, logger) {
-  logger.info('Hey');
+  logger.info('Alright mate');
 }]);
 
 managementApp.controller('studentsController', ['$scope', '$http', 'logger', function($scope, $http, logger) {
-  logger.info('Hey');
+  logger.info('Alright mate');
   $scope.students = [
     {
       name: 'Shirinbekov Oleg',

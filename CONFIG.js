@@ -1,6 +1,6 @@
 if (!process.env.HEROKU) {
   require('dotenv').config();
-  }
+}
 
 var sqlEntry = {
   database: process.env.DB_DATABASE,
