@@ -1,5 +1,5 @@
 'use strict';
-
+var nr = require('newrelic');
 var db = require('./db');
 var express = require('express');
 var bodyParser = require('body-parser');
