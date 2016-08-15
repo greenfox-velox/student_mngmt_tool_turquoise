@@ -1,6 +1,6 @@
 'use strict';
 
-var logger = require('./logger')();
+var logger = require('./backend_logger')();
 
 var Database = function(connection) {
   function errorHandler(err) {

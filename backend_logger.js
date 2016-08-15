@@ -40,7 +40,8 @@ var logger = function(targetConsole, inputLoggingLevel) {
     debug: debug,
     info: info,
     warn: warn,
-    error: error
+    error: error,
+    levelsOfLogging: levelsOfLogging
   };
 };
 

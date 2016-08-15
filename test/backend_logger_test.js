@@ -1,4 +1,4 @@
-var logger = require('../logger');
+var logger = require('../backend_logger');
 var assert = require('assert');
 var sinon = require('sinon');
 
@@ -38,17 +38,6 @@ describe('Test logging with different logging level.', function() {
     var mockLogger = logger(mockConsole, levelsOfLogging.error);
     mockLogger.warn('test log text', 'date');
     assert.ok(mockConsole.notCalled);
-    done();
-  });
-});
-
-describe('Test date input.', function() {
-  it('Date match', function(done) {
-    var mockConsole = sinon.spy();
-    var mockLogger = logger(mockConsole, levelsOfLogging.info);
-    var mockDate = new Date();
-    mockLogger.info('test log text', mockDate);
-    assert.ok(mockConsole.calledWithMatch(mockDate + ' ' + 'test log text'));
     done();
   });
 });

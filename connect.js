@@ -5,7 +5,7 @@ var config = require('./CONFIG');
 var mysql = require('mysql');
 var connection = mysql.createConnection(config.sqlEntry);
 
-var logger = require('./logger')();
+var logger = require('./backend_logger')();
 
 connection.connect(function(err) {
   if (err) {
