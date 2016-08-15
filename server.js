@@ -18,31 +18,19 @@ function newApp(connection) {
   var myDataBase = db(connection);
 
   app.get('/heartbeat', function(req, res) {
-      myDataBase.checkHeartBeat(function(err, result) {
-        if (!err && result.length !== 0) {
-          res.send(result);
-        } else {
-          res.sendStatus(500)
-        }
-      });
+    myDataBase.checkHeartBeat(function(err, result) {
+      if (!err && result.length !== 0) {
+        res.send(result);
+      } else {
+        res.sendStatus(500);
+      }
+    });
   });
-  app.post('/api/log', function(req, res) {
-    switch (req.body.level) {
-      case 'debug':
-        logger.debug(req.body.text, req.body.date);
-        break;
-      case 'info':
-        logger.info(req.body.text, req.body.date);
-        break;
-      case 'warn':
-        logger.warn(req.body.text, req.body.date);
-        break;
-      case 'error':
-        logger.error(req.body.text, req.body.date);
-        break;
-      default:
-        logger.info(req.body.text);
-        break;
+  app.post('/api/log', function(req) {
+    if (logger[req.body.level]) {
+      logger[req.body.level](req.body.text, req.body.date);
+    } else {
+      logger.info(req.body.text);
     }
   });
   return app;
