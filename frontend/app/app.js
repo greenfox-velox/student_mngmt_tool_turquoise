@@ -1,6 +1,6 @@
-var routerApp = angular.module('routerApp', ['ui.router']);
+var managementApp = angular.module('managementApp', ['ui.router']);
 
-routerApp.config(function($stateProvider, $urlRouterProvider) {
+managementApp.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/');
 
   $stateProvider
@@ -37,12 +37,12 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
     });
 });
 
-routerApp.controller('homeController', ['$scope', '$http', function($scope, $http) {
-  logger('home', process.env.LOGGING_LEVEL, new Date());
+managementApp.controller('homeController', ['$scope', '$http', 'logger', function($scope, $http, logger) {
+  logger.info('Hey');
 }]);
 
-routerApp.controller('studentsController', ['$scope', '$http', function($scope, $http) {
-  logger('students', process.env.LOGGING_LEVEL, new Date());
+managementApp.controller('studentsController', ['$scope', '$http', 'logger', function($scope, $http, logger) {
+  logger.info('Hey');
   $scope.students = [
     {
       name: 'Shirinbekov Oleg',

@@ -1,5 +1,4 @@
 'use strict';
-
 var db = require('./db');
 var express = require('express');
 var bodyParser = require('body-parser');
