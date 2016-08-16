@@ -34,15 +34,25 @@ managementApp.config(function($stateProvider, $urlRouterProvider) {
           controller: 'studentsController'
         }
       }
+    })
+
+    .state('login', {
+      url: '/login',
+      templateUrl: 'partial-login.html'
+    })
+
+    .state('register', {
+      url: '/register',
+      templateUrl: 'partial-register.html'
     });
 });
 
 managementApp.controller('homeController', ['$scope', '$http', 'logger', function($scope, $http, logger) {
-  logger.info('Alright mate');
+  logger.info('home controller');
 }]);
 
 managementApp.controller('studentsController', ['$scope', '$http', 'logger', function($scope, $http, logger) {
-  logger.info('Alright mate');
+  logger.info('students controller');
   $scope.students = [
     {
       name: 'Shirinbekov Oleg',
