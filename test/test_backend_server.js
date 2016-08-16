@@ -28,3 +28,16 @@ describe('GET /heartbeat', function() {
       });
   });
 });
+0
+describe('POST /api/log', function() {
+  it('respond with 200', function(done) {
+    var app = newApp(mockConnections.mockConnection);
+    supertest(app)
+    .post('/api/log')
+    .expect(200)
+    .end(function(err, res) {
+      if (err) return done(err);
+      done();
+    });
+  });
+});

@@ -1,11 +1,10 @@
 'use strict';
-var managementApp = angular.module("managementApp");
+var managementApp = angular.module('managementApp');
 var logLevel = 1;
 
-managementApp.factory("logger", function($http) {
+managementApp.factory('logger', function($http) {
   var loggerPost = function(debugLogText, level) {
-    $http.post('https://student-mngmt-tool.herokuapp.com/api/log', { level: level, debugLogText: debugLogText, date: new Date(), location: 'frontend' })
-    .success(function(data) {});
+    $http.post('https://student-mngmt-tool.herokuapp.com/api/log', { level: level, debugLogText: debugLogText, date: new Date(), location: 'frontend' });
   };
   return {
     debug: function(text) {
