@@ -43,12 +43,37 @@ managementApp.config(function($stateProvider, $urlRouterProvider) {
 
     .state('register', {
       url: '/register',
-      templateUrl: 'partial-register.html'
+      templateUrl: 'partial-register.html',
+      controller: 'registerController'
     });
 });
 
 managementApp.controller('homeController', ['$scope', '$http', 'logger', function($scope, $http, logger) {
   logger.info('home controller');
+}]);
+
+managementApp.controller('registerController', ['$scope', '$http', '$state', 'logger', function($scope, $http, $state, logger) {
+  logger.info('register controller');
+
+  function clearInputFields() {
+    $scope.newMember.email = '';
+    $scope.newMember.password = '';
+    $scope.errorMsg = '';
+  }
+
+  function newMemberMaker() {
+    return { email: $scope.newMember.email, password: $scope.newMember.password };
+  }
+
+  $scope.submitRegister = function() {
+    $http.post('https://student-mngmt-tool.herokuapp.com/api/register', newMemberMaker())
+      .then(function successCallback(response) {
+        $state.go('your');
+      }, function errorCallback(response) {
+        $scope.errorMsg = 'Registration error';
+      });
+    clearInputFields();
+  };
 }]);
 
 managementApp.controller('studentsController', ['$scope', '$http', 'logger', function($scope, $http, logger) {
