@@ -26,12 +26,14 @@ function newApp(connection) {
       }
     });
   });
-  app.post('/api/log', function(req) {
+
+  app.post('/api/log', function(req, res) {
     if (logger[req.body.level]) {
       logger[req.body.level](req.body.text, req.body.date);
     } else {
       logger.info(req.body.text);
     }
+    res.send(200);
   });
   return app;
 }

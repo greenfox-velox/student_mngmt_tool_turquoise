@@ -1,5 +1,7 @@
 'use strict'
-
+if (!process.env.HEROKU) {
+  require('dotenv').config();
+}
 /**
  * New Relic agent configuration.
  *
