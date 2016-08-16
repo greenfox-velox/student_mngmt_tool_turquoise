@@ -52,13 +52,17 @@ managementApp.controller('homeController', ['$scope', '$http', 'logger', functio
   logger.info('home controller');
 }]);
 
-managementApp.controller('registerController', ['$scope', '$http', '$state', 'logger', function($scope, $http, $state, logger) {
+managementApp.controller('registerController', ['$scope', '$http', '$state', '$location', 'logger', function($scope, $http, $state, $location, logger) {
   logger.info('register controller');
+
+  function getUrl() {
+    return ($location.absUrl().split('/#/')[0]);
+  }
 
   function clearInputFields() {
     $scope.newMember.email = '';
     $scope.newMember.password = '';
-    $scope.errorMsg = '';
+    $scope.newMember.confirmPassword = '';
   }
 
   function newMemberMaker() {
@@ -66,12 +70,16 @@ managementApp.controller('registerController', ['$scope', '$http', '$state', 'lo
   }
 
   $scope.submitRegister = function() {
-    $http.post('https://student-mngmt-tool.herokuapp.com/api/register', newMemberMaker())
-      .then(function successCallback(response) {
-        $state.go('your');
-      }, function errorCallback(response) {
-        $scope.errorMsg = 'Registration error';
-      });
+    if ($scope.newMember.password === $scope.newMember.confirmPassword) {
+      $http.post(getUrl() + '/api/register', newMemberMaker())
+        .then(function successCallback(response) {
+          $state.go('your');
+        }, function errorCallback(response) {
+          $scope.errorMsg = 'Registration error';
+        });
+    } else {
+      $scope.errorMsg = 'Registration error';
+    }
     clearInputFields();
   };
 }]);

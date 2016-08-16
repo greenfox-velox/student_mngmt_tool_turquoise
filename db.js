@@ -17,8 +17,16 @@ var Database = function(connection) {
     });
   }
 
+  function registerNewUser(newUser, cb) {
+    connection.query('INSERT INTO users SET ?', newUser, function(err, row) {
+      errorHandler(err);
+      cb(err, row);
+    });
+  }
+
   return {
-    checkHeartBeat: checkHeartBeat
+    checkHeartBeat: checkHeartBeat,
+    registerNewUser: registerNewUser
   };
 };
 
