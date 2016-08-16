@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "node main",
-    "test": "mocha ./test/backend_logger_test.js & mocha ./test/test_backend_server.js",
+    "test": "mocha ./test/backend_logger_test.js & mocha ./test/test_backend_server.js & karma start ./test/karma.conf.js",
     "lint": "eslint --cache ."
   },
   "precommit": "lint, test",
