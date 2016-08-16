@@ -4,7 +4,7 @@ var logLevel = 1;
 
 managementApp.factory('logger', function($http) {
   var loggerPost = function(debugLogText, level) {
-    $http.post('https://student-mngmt-tool.herokuapp.com/api/log', { level: level, debugLogText: debugLogText, date: new Date(), location: 'frontend' });
+    $http.post('https://student-mngmt-tool.herokuapp.com/api/log', { level: level, text: debugLogText, date: new Date(), location: 'frontend' });
   };
   return {
     debug: function(text) {
