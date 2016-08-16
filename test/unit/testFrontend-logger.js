@@ -1,10 +1,10 @@
 describe('testFrontend-logger', function() {
-  var $httpBackend, logger;
+  var $httpBackend
+  var logger;
 
   beforeEach(module('managementApp'));
 
   beforeEach(inject(function($injector) {
-
     $httpBackend = $injector.get('$httpBackend');
 
     $httpBackend.when('GET', '')
@@ -13,7 +13,6 @@ describe('testFrontend-logger', function() {
       .respond({ level: 'info', debugLogText: 'Hey', location: 'frontend' });
 
     logger = $injector.get('logger');
-
   }));
 
   afterEach(function() {
