@@ -5,9 +5,10 @@
   "main": "main.js",
   "scripts": {
     "start": "node main",
-    "test": "node test",
+    "test": "mocha ./test/backend_logger_test.js & mocha ./test/test_backend_server.js",
     "lint": "eslint --cache ."
   },
+  "precommit": "lint, test",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/greenfox-velox/student_mngmt_tool_turquoise.git"
