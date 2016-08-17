@@ -17,8 +17,17 @@ var Database = function(connection) {
     });
   }
 
+  function getYourData(queryEmail, cb) {
+    // final email change to user id if login works
+    connection.query('SELECT * FROM users WHERE users.email LIKE ?;', queryEmail, function(err, rows) {
+      errorHandler(err);
+      cb(err, rows);
+    });
+  }
+
   return {
-    checkHeartBeat: checkHeartBeat
+    checkHeartBeat: checkHeartBeat,
+    getYourData: getYourData
   };
 };
 
