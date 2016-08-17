@@ -1,3 +1,27 @@
 <div class="jumbotron text-center">
   <h1>Register page</h1>
+  <h3>{{errorMsg}}</h3>
+  <form ng-submit="submitRegister()">
+    <div>
+      <label>E-mail:</label>
+      <input type="email" required = "required" ng-model="newMember.email"/>
+    </div>
+    <div>
+      <label>Password:</label>
+      <input type="text" required = "required" ng-model="newMember.password"/>
+    </div>
+    <div>
+      <label>Confirm password:</label>
+      <input type="text" required = "required" ng-model="newMember.confirmPassword"/>
+    </div>
+    <div>
+      <input ng-click="submit" type="submit" value="Submit"/>
+    </div>
+    <div>
+      <img src="asserts/home.jpg" ui-sref="home">
+    </div>
+    <div>
+      <a ui-sref="login">Login</a>
+    </div>
+  </form>
 </div>
