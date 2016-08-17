@@ -88,3 +88,35 @@ managementApp.controller('registerController', ['$scope', '$http', '$state', '$l
     clearInputFields();
   };
 }]);
+
+managementApp.controller('loginController', ['$scope', '$http', '$state', 'logger', function($scope, $http, $state, logger) {
+  logger.info('login controller');
+
+  function getUrl() {
+    return ($location.absUrl().split('/#/')[0]);
+  }
+
+  function clearInputFields() {
+    $scope.loggedinMember.email = '';
+    $scope.loggedinMember.password = '';
+    $scope.errorMsg = '';
+  }
+
+  function memberLogin() {
+    return { email: $scope.loggedinMember.email, password: $scope.loggedinMember.password };
+  }
+
+  $scope.submitLogin = function() {
+    if ($scope.loggedinMember.password === $scope.loggedinMember.confirmPassword) {
+      $http.post(getUrl() + '/api/login', memberLogin())
+        .then(function successCallback(response) {
+          $state.go('your');
+        }, function errorCallback(response) {
+          $scope.errorMsg = 'Login error: e-mail address already exist';
+        });
+    } else {
+      $scope.errorMsg = 'Login error: confirmed password does not match original';
+    }
+    clearInputFields();
+  };
+}]);
