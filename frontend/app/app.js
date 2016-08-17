@@ -80,7 +80,7 @@ managementApp.controller('registerController', ['$scope', '$http', '$state', '$l
         .then(function successCallback(response) {
           $state.go('your');
         }, function errorCallback(response) {
-          $scope.errorMsg = 'Registration error: e-mail address already exist';
+          $scope.errorMsg = 'Registration error: e-mail address is not valid or already exist';
         });
     } else {
       $scope.errorMsg = 'Registration error: confirmed password does not match original';
