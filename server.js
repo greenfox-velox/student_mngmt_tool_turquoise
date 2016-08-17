@@ -57,8 +57,6 @@ function newApp(connection) {
       myDataBase.registerNewUser(req.body, function(err, result) {
         if (!err) {
           res.sendStatus(200);
-        } else {
-          res.sendStatus(500);
         }
       });
     } else {
