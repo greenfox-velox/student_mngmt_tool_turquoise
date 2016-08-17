@@ -1,4 +1,7 @@
 var managementApp = angular.module('managementApp', ['ui.router']);
+// var yourUrl = 'https://student-mngmt-tool.herokuapp.com';
+var yourUrl = 'http://localhost:3000';
+var yourUser = 'peter@email.com';
 
 managementApp.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/');
@@ -11,31 +14,6 @@ managementApp.config(function($stateProvider, $urlRouterProvider) {
       controller: 'homeController'
     })
 
-    .state('home.teacher', {
-      url: '/teacher',
-      templateUrl: 'partial-home-list.html'
-    })
-
-    .state('home.student', {
-      url: '/student',
-      template: 'You are a student. Please input your name and password.'
-    })
-
-    .state('student', {
-      url: '/student',
-      views: {
-        '': { templateUrl: 'partial-about.html' },
-        'columnOne@student': {
-          templateUrl: 'selected-data.html',
-          controller: 'studentsController'
-        },
-        'columnTwo@student': {
-          templateUrl: 'table-data.html',
-          controller: 'studentsController'
-        }
-      }
-    })
-
     .state('login', {
       url: '/login',
       templateUrl: 'partial-login.html'
@@ -44,6 +22,12 @@ managementApp.config(function($stateProvider, $urlRouterProvider) {
     .state('register', {
       url: '/register',
       templateUrl: 'partial-register.html'
+    })
+
+    .state('your', {
+      url: '/your',
+      controller: 'yourController',
+      templateUrl: 'partial-your.html'
     });
 });
 
@@ -51,23 +35,23 @@ managementApp.controller('homeController', ['$scope', '$http', 'logger', functio
   logger.info('home controller');
 }]);
 
-managementApp.controller('studentsController', ['$scope', '$http', 'logger', function($scope, $http, logger) {
-  logger.info('students controller');
-  $scope.students = [
-    {
-      name: 'Shirinbekov Oleg',
-      scholarship: 'yes',
-      result: 40
-    },
-    {
-      name: 'Galaschek Péter',
-      scholarship: 'no',
-      result: 38
-    },
-    {
-      name: 'Mbemba Jean-Claude',
-      scholarship: 'yes',
-      result: 43
-    }
-  ];
+managementApp.controller('yourController', ['$scope', '$http', 'logger', function($scope, $http, logger) {
+  logger.info('your controller');
+
+  $scope.showYourData = function(yourData) {
+    $scope.yourFirstname = yourData[0].firstname;
+    $scope.yourLastname = yourData[0].lastname;
+    $scope.yourEmail = yourData[0].email;
+    $scope.yourGithub = yourData[0].github;
+  };
+
+  $http.get(yourUrl + '/your/' + yourUser).success(function(yourData) {
+    logger.info('yourController http get');
+    $scope.showYourData(yourData);
+  });
+
+  $scope.modifyYourData = function(target) {
+    window.alert('Modify: ' + target);
+    console.log(target);
+  };
 }]);

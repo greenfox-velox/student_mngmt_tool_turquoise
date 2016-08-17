@@ -27,6 +27,17 @@ function newApp(connection) {
     });
   });
 
+  app.get('/your/:id', function(req, res) {
+    // final email change to user id if login works in db.js
+    myDataBase.getYourData(req.params.id, function(err, result) {
+      if (!err && result.length !== 0) {
+        res.send(result);
+      } else {
+        res.sendStatus(500);
+      }
+    });
+  });
+
   app.post('/api/log', function(req, res) {
     if (logger[req.body.level]) {
       logger[req.body.level](req.body.text, req.body.date);
