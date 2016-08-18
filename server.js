@@ -4,6 +4,9 @@ var db = require('./db');
 var express = require('express');
 var bodyParser = require('body-parser');
 var logger = require('./backend_logger')();
+var session = require('express-session');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 function newApp(connection) {
   var app = express();
@@ -15,6 +18,13 @@ function newApp(connection) {
     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
     next();
   });
+  app.use(session({
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: true
+  }));
+  app.use(passport.initialize());
+  app.use(passport.session());
 
   var studentDataBase = db(connection);
 
@@ -65,5 +75,42 @@ function newApp(connection) {
   });
   return app;
 }
+
+app.post('/login',
+  passport.authenticate('local'),
+  function(req, res) {
+    // If this function gets called, authentication was successful.
+    // `req.user` contains the authenticated user.
+    res.redirect('/users/' + req.user.username);
+  });
+// passport.serializeUser(function(user, done) {
+//   done(null, user.id);
+// });
+//
+// passport.deserializeUser(function(id, done) {
+//   User.findById(id, function(err, user) {
+//     done(err, user);
+//   });
+// });
+//
+// passport.use(new LocalStrategy(
+//   function(username, password, done) {
+//     User.findOne({ username: username }, function (err, user) {
+//       if (err) { return done(err); }
+//       if (!user) {
+//         return done(null, false, { message: 'Incorrect username.' });
+//       }
+//       if (!user.validPassword(password)) {
+//         return done(null, false, { message: 'Incorrect password.' });
+//       }
+//       return done(null, user);
+//     });
+//   }
+// ));
+
+// req.login(user, function(err) {
+//   if (err) { return next(err); }
+//   return res.redirect('/users/' + req.user.username);
+// });
 
 module.exports = newApp;
