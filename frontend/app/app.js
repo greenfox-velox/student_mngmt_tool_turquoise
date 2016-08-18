@@ -1,7 +1,5 @@
+'use strict';
 var managementApp = angular.module('managementApp', ['ui.router']);
-// var yourUrl = 'https://student-mngmt-tool.herokuapp.com';
-var yourUrl = 'http://localhost:3000';
-var yourUser = 'peter@email.com';
 
 managementApp.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/');

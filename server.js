@@ -16,10 +16,14 @@ function newApp(connection) {
     next();
   });
 
-  var myDataBase = db(connection);
+  var studentDataBase = db(connection);
+
+  function emailValidator(email) {
+    return (/^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i.test(email));
+  }
 
   app.get('/heartbeat', function(req, res) {
-    myDataBase.checkHeartBeat(function(err, result) {
+    studentDataBase.checkHeartBeat(function(err, result) {
       if (!err && result.length !== 0) {
         res.send(result);
       } else {
@@ -30,7 +34,7 @@ function newApp(connection) {
 
   app.get('/your/:id', function(req, res) {
     // final email change to user id if login works in db.js
-    myDataBase.getYourData(req.params.id, function(err, result) {
+    studentDataBase.getYourData(req.params.id, function(err, result) {
       if (!err && result.length !== 0) {
         res.send(result);
       } else {
@@ -60,13 +64,15 @@ function newApp(connection) {
   });
 
   app.post('/api/register', function(req, res) {
-    myDataBase.registerNewUser(req.body, function(err, result) {
-      if (!err) {
-        res.sendStatus(200);
-      } else {
-        res.sendStatus(500);
-      }
-    });
+    if (emailValidator(req.body.email)) {
+      studentDataBase.registerNewUser(req.body, function(err, result) {
+        if (!err) {
+          res.sendStatus(200);
+        }
+      });
+    } else {
+      res.sendStatus(500);
+    }
   });
   return app;
 }
