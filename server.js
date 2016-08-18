@@ -52,6 +52,16 @@ function newApp(connection) {
     res.send(200);
   });
 
+  app.post('/api/login', function(req, res) {
+    studentDataBase.loginUser(req.body.email, function(err, result) {
+      if (!err) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(500);
+      }
+    });
+  });
+
   app.post('/api/register', function(req, res) {
     if (emailValidator(req.body.email)) {
       studentDataBase.registerNewUser(req.body, function(err, result) {

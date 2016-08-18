@@ -32,10 +32,18 @@ var Database = function(connection) {
     });
   }
 
+  function loginUser(email, cb) {
+    connection.query('SELECT * FROM users WHERE users.email LIKE ?;', email, function(err, row) {
+      errorHandler(err);
+      cb(err, row);
+    });
+  }
+
   return {
     checkHeartBeat: checkHeartBeat,
     getYourData: getYourData,
-    registerNewUser: registerNewUser
+    registerNewUser: registerNewUser,
+    loginUser: loginUser
   };
 };
 
