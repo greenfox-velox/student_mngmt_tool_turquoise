@@ -16,7 +16,8 @@ managementApp.config(function($stateProvider, $urlRouterProvider) {
 
     .state('login', {
       url: '/login',
-      templateUrl: 'partial-login.html'
+      templateUrl: 'partial-login.html',
+      controller: 'loginController'
     })
 
     .state('register', {
@@ -89,7 +90,7 @@ managementApp.controller('registerController', ['$scope', '$http', '$state', '$l
   };
 }]);
 
-managementApp.controller('loginController', ['$scope', '$http', '$state', 'logger', function($scope, $http, $state, logger) {
+managementApp.controller('loginController', ['$scope', '$http', '$state', '$location', 'logger', function($scope, $http, $state, $location, logger) {
   logger.info('login controller');
 
   function getUrl() {
@@ -107,16 +108,12 @@ managementApp.controller('loginController', ['$scope', '$http', '$state', 'logge
   }
 
   $scope.submitLogin = function() {
-    if ($scope.loggedinMember.password === $scope.loggedinMember.confirmPassword) {
-      $http.post(getUrl() + '/api/login', memberLogin())
-        .then(function successCallback(response) {
-          $state.go('your');
-        }, function errorCallback(response) {
-          $scope.errorMsg = 'Login error: e-mail address already exist';
-        });
-    } else {
-      $scope.errorMsg = 'Login error: confirmed password does not match original';
-    }
+    $http.post(getUrl() + '/api/login', memberLogin())
+      .then(function successCallback(response) {
+        $state.go('your');
+      }, function errorCallback(response) {
+        $scope.errorMsg = 'Login error: e-mail and password do not match';
+      });
     clearInputFields();
   };
 }]);

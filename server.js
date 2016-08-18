@@ -49,7 +49,8 @@ function newApp(connection) {
   });
 
   app.post('/api/login', function(req, res) {
-    myDataBase.loginUser(req.body, function(err, result) {
+    myDataBase.loginUser(req.body.email, function(err, result) {
+      console.log(result);
       if (!err) {
         res.sendStatus(200);
       } else {
