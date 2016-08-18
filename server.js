@@ -53,8 +53,7 @@ function newApp(connection) {
   });
 
   app.post('/api/login', function(req, res) {
-    myDataBase.loginUser(req.body.email, function(err, result) {
-      console.log(result);
+    studentDataBase.loginUser(req.body.email, function(err, result) {
       if (!err) {
         res.sendStatus(200);
       } else {
