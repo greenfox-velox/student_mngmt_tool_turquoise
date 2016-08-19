@@ -9,8 +9,7 @@ var logger = require('./backend_logger')();
 
 connection.connect(function(err) {
   if (err) {
-    logger.error('Error connecting to Db');
-    logger.error(err);
+    logger.error('Error connecting to Db' + err);
     return;
   }
   logger.info('Connection established');
