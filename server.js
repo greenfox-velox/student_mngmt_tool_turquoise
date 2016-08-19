@@ -90,7 +90,10 @@ function newApp(connection) {
     });
   });
 
-  passport.use(new LocalStrategy(
+  passport.use(new LocalStrategy({
+      usernameField: 'email',
+      passwordField: 'password'
+    },
     function(email, password, done) {
       studentDataBase.loginUser(email, function(err, user) {
         if (err) { return done(err); }
