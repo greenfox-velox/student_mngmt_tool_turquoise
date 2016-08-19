@@ -61,16 +61,17 @@ function newApp(connection) {
     res.send(200);
   });
 
-  app.post('/api/login',
-    passport.authenticate('local'));
+  app.post('/api/login', passport.authenticate('local'), function(req, res) {
+    res.send(200);
+  });
 
   app.post('/api/register', function(req, res) {
-    studentDataBase.registerNewUser(req.body, function(err, user) {
+    studentDataBase.registerNewUser(req.body, function(err, result) {
       if (err) {
         res.sendStatus(500);
         return;
       }
-      req.login(user, function(error) {
+      req.login({id: result.insertId}, function(error) {
         if (error) {
           logger.error(error);
           return res.sendStatus(500);
@@ -81,11 +82,12 @@ function newApp(connection) {
   });
 
   passport.serializeUser(function(user, done) {
-    done(null, user.insertId);
+    done(null, user.id);
   });
 
   passport.deserializeUser(function(id, done) {
     studentDataBase.getUserById(id, function(err, user) {
+      console.log(user);
       done(err, user);
     });
   });
