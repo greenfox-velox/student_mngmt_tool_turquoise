@@ -43,7 +43,6 @@ function newApp(connection) {
   });
 
   app.get('/your/:id', function(req, res) {
-    // final email change to user id if login works in db.js
     studentDataBase.getYourData(req.params.id, function(err, result) {
       if (!err && result.length !== 0) {
         res.send(result);
@@ -62,65 +61,51 @@ function newApp(connection) {
     res.send(200);
   });
 
-  app.post('/api/login', function(req, res) {
-    studentDataBase.loginUser(req.body.email, function(err, result) {
-      if (!err) {
-        res.sendStatus(200);
-      } else {
+  app.post('/api/login',
+    passport.authenticate('local'));
+
+  app.post('/api/register', function(req, res) {
+    studentDataBase.registerNewUser(req.body, function(err, user) {
+      if (err) {
         res.sendStatus(500);
+        return;
       }
+      req.login(user, function(error) {
+        if (error) {
+          logger.error(error);
+          return res.sendStatus(500);
+        }
+        res.sendStatus(200);
+      });
     });
   });
 
-  app.post('/api/register', function(req, res) {
-    if (emailValidator(req.body.email)) {
-      studentDataBase.registerNewUser(req.body, function(err, result) {
-        if (!err) {
-          res.sendStatus(200);
-        }
-      });
-    } else {
-      res.sendStatus(500);
-    }
+  passport.serializeUser(function(user, done) {
+    done(null, user.insertId);
   });
+
+  passport.deserializeUser(function(id, done) {
+    studentDataBase.getUserById(id, function(err, user) {
+      done(err, user);
+    });
+  });
+
+  passport.use(new LocalStrategy(
+    function(email, password, done) {
+      studentDataBase.loginUser(email, function(err, user) {
+        if (err) { return done(err); }
+        if (!user) {
+          return done(null, false, { message: 'Incorrect email.' });
+        }
+        if (password !== user.password) {
+          return done(null, false, { message: 'Incorrect password.' });
+        }
+        return done(null, user);
+      });
+    }
+  ));
+
   return app;
 }
-
-app.post('/login',
-  passport.authenticate('local'),
-  function(req, res) {
-    // If this function gets called, authentication was successful.
-    // `req.user` contains the authenticated user.
-    res.redirect('/users/' + req.user.username);
-  });
-// passport.serializeUser(function(user, done) {
-//   done(null, user.id);
-// });
-//
-// passport.deserializeUser(function(id, done) {
-//   User.findById(id, function(err, user) {
-//     done(err, user);
-//   });
-// });
-//
-// passport.use(new LocalStrategy(
-//   function(username, password, done) {
-//     User.findOne({ username: username }, function (err, user) {
-//       if (err) { return done(err); }
-//       if (!user) {
-//         return done(null, false, { message: 'Incorrect username.' });
-//       }
-//       if (!user.validPassword(password)) {
-//         return done(null, false, { message: 'Incorrect password.' });
-//       }
-//       return done(null, user);
-//     });
-//   }
-// ));
-
-// req.login(user, function(err) {
-//   if (err) { return next(err); }
-//   return res.redirect('/users/' + req.user.username);
-// });
 
 module.exports = newApp;
