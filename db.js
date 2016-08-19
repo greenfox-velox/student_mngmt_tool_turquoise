@@ -7,8 +7,8 @@ var Database = function(connection) {
   function errorHandler(err) {
     if (err) {
       logger.error(err.toString());
+      return;
     }
-    return;
   }
 
   function getQuery(newQuery, table, callback) {
