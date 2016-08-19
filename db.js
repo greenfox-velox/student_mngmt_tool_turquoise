@@ -1,13 +1,22 @@
 'use strict';
 
 var logger = require('./backend_logger')();
+var mysql = require('mysql');
 
 var Database = function(connection) {
   function errorHandler(err) {
     if (err) {
       logger.error(err.toString());
-      return;
     }
+    return;
+  }
+
+  function getQuery(newQuery, table, callback) {
+    var fullQuery = mysql.format(newQuery, table);
+    connection.query(fullQuery, function(err, result) {
+      errorHandler(err);
+      callback(err, result);
+    });
   }
 
   function checkHeartBeat(cb) {
@@ -17,12 +26,18 @@ var Database = function(connection) {
     });
   }
 
-  function getYourData(queryEmail, cb) {
+  function getYourData(queryEmail, callback) {
     // final email change to user id if login works
-    connection.query('SELECT * FROM users WHERE users.email LIKE ?;', queryEmail, function(err, rows) {
-      errorHandler(err);
-      cb(err, rows);
-    });
+    var newQuery = 'SELECT * FROM users WHERE users.email LIKE (?);';
+    var table = [queryEmail];
+    getQuery(newQuery, table, callback);
+  }
+
+  function updateYourData(inputData, callback) {
+    // final email change to user id if login works
+    var newQuery = 'UPDATE users SET ?? = ? WHERE users.email LIKE ?;';
+    var table = [inputData.whatChange, inputData.changedData, inputData.queryEmail];
+    getQuery(newQuery, table, callback);
   }
 
   function registerNewUser(newUser, cb) {
@@ -34,6 +49,7 @@ var Database = function(connection) {
 
   return {
     checkHeartBeat: checkHeartBeat,
+    updateYourData: updateYourData,
     getYourData: getYourData,
     registerNewUser: registerNewUser
   };

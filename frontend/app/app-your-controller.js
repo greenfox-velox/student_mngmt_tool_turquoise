@@ -18,8 +18,26 @@ managementAppYour.controller('yourController', ['$scope', '$http', 'logger', fun
     $scope.showYourData(yourData);
   });
 
-  $scope.modifyYourData = function(target) {
-    window.alert('Modify: ' + target);
-    console.log(target);
+  function updateYourData(whatChange, changedData, queryEmail) {
+    var postData = {
+      whatChange: whatChange,
+      changedData: changedData,
+      queryEmail: queryEmail
+    };
+    $http.post('/your', postData)
+    .then(function successCallback() {
+      logger.info('updateYourData - update data success');
+    }, function errorCallback(err) {
+      logger.error('updateYourData - update data error: ' + err);
+    });
+  }
+
+  $scope.modifyYourData = function(value, whatChange) {
+    if ($scope.form.$valid) {
+      logger.info('your controller - Valid input data');
+      updateYourData(whatChange, value, yourUser);
+    } else {
+      logger.warn('your controller - Not valid input data');
+    }
   };
 }]);

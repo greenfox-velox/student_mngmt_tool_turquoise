@@ -1,4 +1,5 @@
 'use strict';
+
 require('newrelic');
 var db = require('./db');
 var express = require('express');
@@ -29,8 +30,17 @@ function newApp(connection) {
   });
 
   app.get('/your/:id', function(req, res) {
-    // final email change to user id if login works in db.js
     myDataBase.getYourData(req.params.id, function(err, result) {
+      if (!err && result.length !== 0) {
+        res.send(result);
+      } else {
+        res.sendStatus(500);
+      }
+    });
+  });
+
+  app.post('/your', function(req, res) {
+    myDataBase.updateYourData(req.body, function(err, result) {
       if (!err && result.length !== 0) {
         res.send(result);
       } else {
@@ -49,7 +59,7 @@ function newApp(connection) {
   });
 
   app.post('/api/register', function(req, res) {
-    myDataBase.registerNewUser(req.body, function(err, result) {
+    myDataBase.registerNewUser(req.body, function(err) {
       if (!err) {
         res.sendStatus(200);
       } else {
