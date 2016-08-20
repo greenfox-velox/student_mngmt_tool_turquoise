@@ -1,4 +1,5 @@
 'use strict';
+
 require('newrelic');
 var db = require('./db');
 var express = require('express');
@@ -44,6 +45,16 @@ function newApp(connection) {
 
   app.get('/your/:id', function(req, res) {
     studentDataBase.getYourData(req.params.id, function(err, result) {
+      if (!err && result.length !== 0) {
+        res.send(result);
+      } else {
+        res.sendStatus(500);
+      }
+    });
+  });
+
+  app.post('/your', function(req, res) {
+    studentDataBase.updateYourData(req.body, function(err, result) {
       if (!err && result.length !== 0) {
         res.send(result);
       } else {
