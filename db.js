@@ -26,13 +26,6 @@ var Database = function(connection) {
     });
   }
 
-<<<<<<< HEAD
-  function getYourData(queryEmail, cb) {
-    connection.query('SELECT * FROM users WHERE users.email LIKE ?;', queryEmail, function(err, rows) {
-      errorHandler(err);
-      cb(err, rows);
-    });
-=======
   function getYourData(queryEmail, callback) {
     // final email change to user id if login works
     var newQuery = 'SELECT * FROM users WHERE users.email LIKE (?);';
@@ -45,7 +38,6 @@ var Database = function(connection) {
     var newQuery = 'UPDATE users SET ?? = ? WHERE users.email LIKE ?;';
     var table = [inputData.whatChange, inputData.changedData, inputData.queryEmail];
     getQuery(newQuery, table, callback);
->>>>>>> 67bfea65f26e4612f79430d8130da940e697993b
   }
 
   function getUserById(id, cb) {
