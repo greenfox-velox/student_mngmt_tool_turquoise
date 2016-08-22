@@ -5,6 +5,9 @@ var db = require('./db');
 var express = require('express');
 var bodyParser = require('body-parser');
 var logger = require('./backend_logger')();
+var session = require('express-session');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 function newApp(connection) {
   var app = express();
@@ -16,6 +19,13 @@ function newApp(connection) {
     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
     next();
   });
+  app.use(session({
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: true
+  }));
+  app.use(passport.initialize());
+  app.use(passport.session());
 
   var studentDataBase = db(connection);
 
@@ -34,7 +44,6 @@ function newApp(connection) {
   });
 
   app.get('/your/:id', function(req, res) {
-    // final email change to user id if login works in db.js
     studentDataBase.getYourData(req.params.id, function(err, result) {
       if (!err && result.length !== 0) {
         res.send(result);
@@ -63,27 +72,55 @@ function newApp(connection) {
     res.send(200);
   });
 
-  app.post('/api/login', function(req, res) {
-    studentDataBase.loginUser(req.body.email, function(err, result) {
-      if (!err) {
-        res.sendStatus(200);
-      } else {
-        res.sendStatus(500);
-      }
-    });
+  app.post('/api/login', passport.authenticate('local'), function(req, res) {
+    res.send(200);
   });
 
   app.post('/api/register', function(req, res) {
-    if (emailValidator(req.body.email)) {
-      studentDataBase.registerNewUser(req.body, function(err, result) {
-        if (!err) {
-          res.sendStatus(200);
+    studentDataBase.registerNewUser(req.body, function(err, result) {
+      if (err) {
+        res.sendStatus(500);
+        return;
+      }
+      req.login({id: result.insertId}, function(error) {
+        if (error) {
+          logger.error(error);
+          return res.sendStatus(500);
         }
+        res.sendStatus(200);
       });
-    } else {
-      res.sendStatus(500);
-    }
+    });
   });
+
+  passport.serializeUser(function(user, done) {
+    done(null, user.id);
+  });
+
+  passport.deserializeUser(function(id, done) {
+    studentDataBase.getUserById(id, function(err, user) {
+      console.log(user);
+      done(err, user);
+    });
+  });
+
+  passport.use(new LocalStrategy({
+      usernameField: 'email',
+      passwordField: 'password'
+    },
+    function(email, password, done) {
+      studentDataBase.loginUser(email, function(err, user) {
+        if (err) { return done(err); }
+        if (!user) {
+          return done(null, false, { message: 'Incorrect email.' });
+        }
+        if (password !== user.password) {
+          return done(null, false, { message: 'Incorrect password.' });
+        }
+        return done(null, user);
+      });
+    }
+  ));
+
   return app;
 }
 

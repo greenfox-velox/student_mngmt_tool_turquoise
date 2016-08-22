@@ -40,6 +40,13 @@ var Database = function(connection) {
     getQuery(newQuery, table, callback);
   }
 
+  function getUserById(id, cb) {
+    connection.query('SELECT * FROM users WHERE users.id LIKE ?;', id, function(err, rows) {
+      errorHandler(err);
+      cb(err, rows[0]);
+    });
+  }
+
   function registerNewUser(newUser, cb) {
     connection.query('INSERT INTO users SET ?;', newUser, function(err, row) {
       errorHandler(err);
@@ -48,9 +55,9 @@ var Database = function(connection) {
   }
 
   function loginUser(email, cb) {
-    connection.query('SELECT * FROM users WHERE users.email LIKE ?;', email, function(err, row) {
+    connection.query('SELECT * FROM users WHERE users.email LIKE ?;', email, function(err, rows) {
       errorHandler(err);
-      cb(err, row);
+      cb(err, rows[0]);
     });
   }
 
@@ -59,7 +66,8 @@ var Database = function(connection) {
     updateYourData: updateYourData,
     getYourData: getYourData,
     registerNewUser: registerNewUser,
-    loginUser: loginUser
+    loginUser: loginUser,
+    getUserById: getUserById
   };
 };
 
