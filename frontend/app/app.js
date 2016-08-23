@@ -1,7 +1,5 @@
 'use strict';
 
-var yourUrl = 'http://localhost:3000';
-var yourUser = 'peter@email.com';
 var managementApp = angular.module('managementApp', ['ui.router']);
 
 managementApp.config(function($stateProvider, $urlRouterProvider) {
@@ -31,13 +29,35 @@ managementApp.config(function($stateProvider, $urlRouterProvider) {
       url: '/your',
       controller: 'yourController',
       templateUrl: 'partial-your.html'
+    })
+
+    .state('loggedin', {
+      url: '/',
+      controller: 'homeController',
+      templateUrl: 'partial-home-loggedin.html'
+    })
+
+    .state('logout', {
+      url: '/',
+      templateUrl: 'partial-home.html',
+      controller: 'homeController'
     });
 });
 
-managementApp.controller('homeController', ['$scope', '$http', 'logger', function($scope, $http, logger) {
+managementApp.controller('homeController', ['$scope', '$http', '$state', '$location', 'logger', function($scope, $http, $state, $location, logger) {
   logger.info('home controller');
-  $http.get(yourUrl + '/your/' + yourUser).success(function(yourData) {
-    logger.info('yourController http get');
-    $scope.showYourData(yourData);
+
+  $scope.logOut = function() {
+    $http.get(getUrl($location) + '/api/logout')
+    .then(function successCallback(response) {
+      $state.go('home');
+    });
+  };
+
+  $http.get(getUrl($location) + '/api/loggedin')
+  .then(function successCallback(response) {
+    $state.go('loggedin');
+  }, function errorCallback(response) {
+    $state.go('home');
   });
 }]);
