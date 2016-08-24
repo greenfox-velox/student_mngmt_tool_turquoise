@@ -40,9 +40,6 @@ managementAppYour.controller('yourController', ['$scope', '$http', '$state', '$l
   };
 
   $scope.logOut = function() {
-    $http.get(getUrl($location) + '/api/logout')
-    .then(function successCallback(response) {
-      $state.go('home');
-    });
+    userFunctions.logOut();
   };
 }]);

@@ -77,12 +77,13 @@ function newApp(connection) {
   });
 
   app.get('/api/loggedin', function(req, res) {
+    console.log(req.user);
     if (req.user) {
       res.status(200).json({
         status: 'logged in'
       });
     } else {
-      res.status(404).json({
+      res.status(200).json({
         status: 'not logged in'
       });
     }

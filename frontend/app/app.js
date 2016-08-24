@@ -44,20 +44,19 @@ managementApp.config(function($stateProvider, $urlRouterProvider) {
     });
 });
 
-managementApp.controller('homeController', ['$scope', '$http', '$state', '$location', 'logger', function($scope, $http, $state, $location, logger) {
+managementApp.controller('homeController', ['$scope', '$http', '$state', '$location', 'logger', 'userFunctions', function($scope, $http, $state, $location, logger, userFunctions) {
   logger.info('home controller');
 
   $scope.logOut = function() {
-    $http.get(getUrl($location) + '/api/logout')
-    .then(function successCallback(response) {
-      $state.go('home');
-    });
+    userFunctions.logOut();
   };
 
   $http.get(getUrl($location) + '/api/loggedin')
   .then(function successCallback(response) {
-    $state.go('loggedin');
-  }, function errorCallback(response) {
-    $state.go('home');
+    if (response.data.status === 'logged in') {
+      $state.go('loggedin');
+    } else {
+      $state.go('home');
+    }
   });
 }]);
