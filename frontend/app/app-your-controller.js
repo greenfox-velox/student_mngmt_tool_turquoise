@@ -1,9 +1,7 @@
 var managementAppYour = angular.module('managementApp');
-// var yourUrl = 'https://student-mngmt-tool.herokuapp.com';
-var yourUrl = 'http://localhost:3000';
 var yourUser = 'peter@email.com';
 
-managementAppYour.controller('yourController', ['$scope', '$http', 'logger', function($scope, $http, logger) {
+managementAppYour.controller('yourController', ['$scope', '$http', '$state', '$location', 'logger', function($scope, $http, $state, $location, logger) {
   logger.info('your controller');
 
   $scope.showYourData = function(yourData) {
@@ -13,7 +11,7 @@ managementAppYour.controller('yourController', ['$scope', '$http', 'logger', fun
     $scope.yourGithub = yourData[0].github;
   };
 
-  $http.get(yourUrl + '/your/' + yourUser).success(function(yourData) {
+  $http.get(getUrl($location) + '/your/' + yourUser).success(function(yourData) {
     logger.info('yourController http get');
     $scope.showYourData(yourData);
   });
@@ -39,5 +37,9 @@ managementAppYour.controller('yourController', ['$scope', '$http', 'logger', fun
     } else {
       logger.warn('your controller - Not valid input data');
     }
+  };
+
+  $scope.logOut = function() {
+    userFunctions.logOut();
   };
 }]);

@@ -1,4 +1,5 @@
 'use strict';
+
 var managementApp = angular.module('managementApp', ['ui.router']);
 
 managementApp.config(function($stateProvider, $urlRouterProvider) {
@@ -28,37 +29,34 @@ managementApp.config(function($stateProvider, $urlRouterProvider) {
       url: '/your',
       controller: 'yourController',
       templateUrl: 'partial-your.html'
+    })
+
+    .state('loggedin', {
+      url: '/',
+      controller: 'homeController',
+      templateUrl: 'partial-home-loggedin.html'
+    })
+
+    .state('logout', {
+      url: '/',
+      templateUrl: 'partial-home.html',
+      controller: 'homeController'
     });
 });
 
-managementApp.controller('homeController', ['$scope', '$http', 'logger', function($scope, $http, logger) {
+managementApp.controller('homeController', ['$scope', '$http', '$state', '$location', 'logger', 'userFunctions', function($scope, $http, $state, $location, logger, userFunctions) {
   logger.info('home controller');
-}]);
 
-managementApp.controller('loginController', ['$scope', '$http', '$state', '$location', 'logger', function($scope, $http, $state, $location, logger) {
-  logger.info('login controller');
-
-  function getUrl() {
-    return ($location.absUrl().split('/#/')[0]);
-  }
-
-  function clearInputFields() {
-    $scope.loggedinMember.email = '';
-    $scope.loggedinMember.password = '';
-    $scope.errorMsg = '';
-  }
-
-  function memberLogin() {
-    return { email: $scope.loggedinMember.email, password: $scope.loggedinMember.password };
-  }
-
-  $scope.submitLogin = function() {
-    $http.post(getUrl() + '/api/login', memberLogin())
-      .then(function successCallback(response) {
-        $state.go('your');
-      }, function errorCallback(response) {
-        $scope.errorMsg = 'Login error: e-mail and password do not match';
-      });
-    clearInputFields();
+  $scope.logOut = function() {
+    userFunctions.logOut();
   };
+
+  $http.get(getUrl($location) + '/api/loggedin')
+  .then(function successCallback(response) {
+    if (response.data.status === 'logged in') {
+      $state.go('loggedin');
+    } else {
+      $state.go('home');
+    }
+  });
 }]);

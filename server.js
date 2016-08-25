@@ -76,6 +76,24 @@ function newApp(connection) {
     res.send(200);
   });
 
+  app.get('/api/loggedin', function(req, res) {
+    console.log(req.user);
+    if (req.user) {
+      res.status(200).json({
+        status: 'logged in'
+      });
+    } else {
+      res.status(200).json({
+        status: 'not logged in'
+      });
+    }
+  });
+
+  app.get('/api/logout', function(req, res) {
+    req.logout();
+    res.sendStatus(200);
+  });
+
   app.post('/api/register', function(req, res) {
     studentDataBase.registerNewUser(req.body, function(err, result) {
       if (err) {
@@ -98,15 +116,14 @@ function newApp(connection) {
 
   passport.deserializeUser(function(id, done) {
     studentDataBase.getUserById(id, function(err, user) {
-      console.log(user);
       done(err, user);
     });
   });
 
   passport.use(new LocalStrategy({
-      usernameField: 'email',
-      passwordField: 'password'
-    },
+    usernameField: 'email',
+    passwordField: 'password'
+  },
     function(email, password, done) {
       studentDataBase.loginUser(email, function(err, user) {
         if (err) { return done(err); }

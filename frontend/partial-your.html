@@ -7,3 +7,5 @@
   <p>E-mail adress: <input type="email" required = "required" placeholder="name@email.com" ng-model="yourEmail" ng-blur="modifyYourData(yourEmail, 'email')"/></p>
   <p>GitHub profile: <input type="url" placeholder="https://github.com/Name" ng-model="yourGithub" ng-blur="modifyYourData(yourGithub, 'github')"/></p>
 </form>
+<a ui-sref="loggedin" class="btn btn-default">Home</a>
+<a ng-click="logOut()" class="btn btn-danger">Logout</a>
