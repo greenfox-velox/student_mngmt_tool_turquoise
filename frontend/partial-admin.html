@@ -1,0 +1,31 @@
+<div ng-controller="adminController">
+  <div class="page-body">
+
+    <div class="jumbotron text-center">
+      <h1>The list of companies</h1>
+    </div>
+
+    <table data-toggle="table" class="table table-hover table-striped">
+      <thead class="thead-inverse">
+        <tr>
+          <th class="id_col">Id</th>
+          <th class="name_col">Name
+           <span class="glyphicon glyphicon-chevron-down" ng-click="order = 'name'"></span>
+           <span class="glyphicon glyphicon-chevron-up" ng-click="order = '-name'"></span>
+          </th>
+          <th class="delete_col"></th>
+        </tr>
+      </thead>
+
+      <tr ng-repeat="company in companies | orderBy: order">
+        <td class="id_col">{{company.id}}</td>
+        <td class="name_col">{{company.name}}</td>
+        <td class="delete_col"><a ng-click="removeCompany(company)">Delete</a></td>
+      </tr>
+    </table>
+
+    <button class="btn btn-default btn-lg active">Undo</button>
+    <button ng-click="logOut()" class="btn btn-lg btn-danger active">Logout</button>
+
+  </div>
+</div>

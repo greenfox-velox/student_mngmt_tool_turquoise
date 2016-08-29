@@ -9,3 +9,25 @@ input.ng-invalid.ng-dirty {
 .navbar {
   border-radius:0;
 }
+
+.glyphicon {
+  float: right;
+}
+
+h3 {
+  margin-top: 20px;
+}
+
+th {
+  text-align: left;
+  background: #a6a6a6;
+}
+
+table th,
+table td {
+  padding: 0 15px;
+}
+
+.delete_col:hover {
+  cursor: pointer;
+}
