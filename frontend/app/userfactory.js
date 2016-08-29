@@ -3,7 +3,6 @@
 var managementApp = angular.module('managementApp');
 
 managementApp.factory('userFunctions', function($http, $location, $state) {
-
   return {
     logOut: function() {
       $http.get(getUrl($location) + '/api/logout')
