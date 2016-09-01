@@ -10,9 +10,31 @@ managementApp.controller('adminController', ['$scope', '$http', '$state', '$loca
       $scope.companies = data;
     });
 
+    $scope.addCompany = function() {
+      $scope.companies.push({
+        name: $scope.newcompany.name,
+        available: true
+      });
+
+      $scope.newcompany.name = '';
+    };
+
+    $scope.editCompany = function(company) {
+      return;
+    };
+
+    $scope.saveCompany = function(company) {
+      $scope.newcompany.name = company.name;
+    };
+
     $scope.removeCompany = function(company) {
       var removedCompany = $scope.companies.indexOf(company);
-      $scope.companies.splice(removedCompany, 1);
+      removedCompany.available = false;
+    };
+
+    $scope.undoRemoveCompany = function(company) {
+      var removedCompany = $scope.companies.indexOf(company);
+      removedCompany.available = true;
     };
 
     $scope.logOut = function() {

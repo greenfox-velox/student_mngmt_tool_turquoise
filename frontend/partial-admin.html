@@ -1,4 +1,4 @@
-<div ng-controller="adminController">
+<div class="main-body" ng-controller="adminController">
   <div class="page-body">
 
     <div class="jumbotron text-center">
@@ -13,19 +13,31 @@
            <span class="glyphicon glyphicon-chevron-down" ng-click="order = 'name'"></span>
            <span class="glyphicon glyphicon-chevron-up" ng-click="order = '-name'"></span>
           </th>
+          <th class="edit_col"></th>
+          <th class="save_col"></th>
           <th class="delete_col"></th>
         </tr>
       </thead>
 
-      <tr ng-repeat="company in companies | orderBy: order">
+      <tr ng-repeat="company in companies | orderBy: order ng-show=company.available”">
         <td class="id_col">{{company.id}}</td>
         <td class="name_col">{{company.name}}</td>
+        <td class="edit_col"><a ng-click="editCompany(company)"></a>Edit</td>
+        <td class="save_col"><a ng-click="saveCompany(company)"></a>Edit</td>
         <td class="delete_col"><a ng-click="removeCompany(company)">Delete</a></td>
       </tr>
     </table>
 
-    <button class="btn btn-default btn-lg active">Undo</button>
-    <button ng-click="logOut()" class="btn btn-lg btn-danger active">Logout</button>
+    <div class="add-group col-sm-8">
+      <input type="text" name="newcompany" class="add-field form-control" ng-model="newcompany.name" required placeholder="New company">
+      <button type="submit" class="add-button btn btn-primary">Add</button>
+    </div>
 
   </div>
+
+  <div class="buttons">
+    <button ng-click="undoRemoveCompany()" class="btn btn-default btn-lg active">Undo</button>
+    <button ng-click="logOut()" class="btn btn-lg btn-danger active">Logout</button>
+  </div>
+
 </div>
