@@ -2,17 +2,31 @@
 
 var mockConnection = {
   query: function(sql, cb) {
-    cb(null, [{}])
+    cb(null, [{}]);
   }
 };
 
 var mockConnectionError = {
   query: function(sql, cb) {
-    cb('error', [{}])
+    cb('error', [{}]);
+  }
+};
+
+var mockConnectionRegister = {
+  query: function(sql, item, cb) {
+    cb(null, {insertId: 1});
+  }
+};
+
+var mockConnectionRegisterError = {
+  query: function(sql, item, cb) {
+    cb('error', [{}]);
   }
 };
 
 module.exports = {
   mockConnection: mockConnection,
-  mockConnectionError: mockConnectionError
+  mockConnectionError: mockConnectionError,
+  mockConnectionRegister: mockConnectionRegister,
+  mockConnectionRegisterError: mockConnectionRegisterError
 };

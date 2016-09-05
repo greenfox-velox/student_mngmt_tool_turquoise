@@ -44,10 +44,10 @@ describe('POST /api/log', function() {
 
 describe('POST /api/register', function() {
   it('respond with 200', function(done) {
-    var app = newApp(mockConnections.mockConnection);
+    var app = newApp(mockConnections.mockConnectionRegister);
     supertest(app)
       .post('/api/register')
-      // .expect('Content-Type', /json/)
+      .send({email: 'test@test.hu'})
       .expect(200)
       .end(function(err, res) {
         if (err) return done(err);
@@ -56,9 +56,10 @@ describe('POST /api/register', function() {
   });
 
   it('respond with 500', function(done) {
-    var app = newApp(mockConnections.mockConnectionError);
+    var app = newApp(mockConnections.mockConnectionRegisterError);
     supertest(app)
       .post('/api/register')
+      .send({email: 'test@test.hu'})
       .expect(500)
       .end(function(err, res) {
         if (err) return done(err);
@@ -66,18 +67,3 @@ describe('POST /api/register', function() {
       });
   });
 });
-// app.post('/api/register', function(req, res) {
-//   studentDataBase.registerNewUser(req.body, function(err, result) {
-//     if (err) {
-//       res.sendStatus(500);
-//       return;
-//     }
-//     req.login({id: result.insertId}, function(error) {
-//       if (error) {
-//         logger.error(error);
-//         return res.sendStatus(500);
-//       }
-//       res.sendStatus(200);
-//     });
-//   });
-// });
