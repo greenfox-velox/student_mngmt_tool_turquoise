@@ -1,6 +1,6 @@
 'use strict';
 
-var newApp = require('../server');
+var newApp = require('../backend/server');
 var supertest = require('supertest');
 var mockConnections = require('./mockconnections');
 

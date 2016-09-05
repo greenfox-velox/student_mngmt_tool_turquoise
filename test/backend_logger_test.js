@@ -1,4 +1,4 @@
-var logger = require('../backend_logger');
+var logger = require('../backend/backend_logger');
 var assert = require('assert');
 var sinon = require('sinon');
 
