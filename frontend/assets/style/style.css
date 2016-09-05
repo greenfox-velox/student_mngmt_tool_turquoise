@@ -47,10 +47,28 @@ table td {
   float: right;
 }
 
-.buttons {
+.bottom-buttons {
   position: absolute;
   bottom: 30px;
   right: 30px;
   display: block;
-  justify-content: flex-start;
+  justify-content: flex-end;
+}
+
+.edit-button,
+.save-button,
+.cancel-button {
+  display: none;
+}
+
+.edit-col,
+.save-col,
+.cancel-col {
+  max-width: 40px;
+}
+
+tr:hover .edit-button,
+tr:hover .save-button,
+tr:hover .cancel-button {
+  display: block;
 }

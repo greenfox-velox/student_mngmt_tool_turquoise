@@ -1,7 +1,7 @@
 var managementAppYour = angular.module('managementApp');
 var yourUser = 'peter@email.com';
 
-managementAppYour.controller('yourController', ['$scope', '$http', '$state', '$location', 'logger', function($scope, $http, $state, $location, logger) {
+managementAppYour.controller('yourController', ['$scope', '$http', '$state', '$location', 'logger', 'userFunctions', function($scope, $http, $state, $location, logger, userFunctions) {
   logger.info('your controller');
 
   $scope.showYourData = function(yourData) {

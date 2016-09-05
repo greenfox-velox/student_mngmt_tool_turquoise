@@ -8,34 +8,45 @@
     <table data-toggle="table" class="table table-hover table-striped">
       <thead class="thead-inverse">
         <tr>
-          <th class="id_col">Id</th>
-          <th class="name_col">Name
+          <th class="id_col col-sm-1">Id</th>
+          <th class="name_col col-sm-7">Name
            <span class="glyphicon glyphicon-chevron-down" ng-click="order = 'name'"></span>
            <span class="glyphicon glyphicon-chevron-up" ng-click="order = '-name'"></span>
           </th>
-          <th class="edit_col"></th>
-          <th class="save_col"></th>
-          <th class="delete_col"></th>
+          <th class="edit_col col-sm-1"></th>
+          <th class="save_col col-sm-1"></th>
+          <th class="cancel_col col-sm-1"></th>
+          <th class="delete_col col-sm-1"></th>
         </tr>
       </thead>
 
-      <tr ng-repeat="company in companies | orderBy: order ng-show=company.available”">
-        <td class="id_col">{{company.id}}</td>
-        <td class="name_col">{{company.name}}</td>
-        <td class="edit_col"><a ng-click="editCompany(company)"></a>Edit</td>
-        <td class="save_col"><a ng-click="saveCompany(company)"></a>Edit</td>
-        <td class="delete_col"><a ng-click="removeCompany(company)">Delete</a></td>
-      </tr>
+      <tbody>
+        <tr ng-repeat="company in companies | orderBy: order" ng-show="company.available">
+          <td class="id_col col-sm-1">{{company.id}}</td>
+          <td class="name_col col-sm-7">{{company.name}}</td>
+            <span ng-if="checked">
+              <form>
+                <input type="text" name="newcompany" ng-model="newcompany.name">
+              </form>
+            </span>
+          <td class="edit_col col-sm-1"><input type="checkbox" ng-model="checked" ng-init="checked=true"> Edit</td>
+          <td class="save_col col-sm-1"><button class="save-button btn btn-danger btn-sm" ng-click="">Save</button></td>
+          <td class="cancel_col col-sm-1"><button class="cancel-button btn btn-warning btn-sm" ng-click="">Cancel</button></td>
+          <td class="delete_col col-sm-1"><a ng-click="removeCompany(company)">Delete</a></td>
+        </tr>
+    </tbody>
     </table>
 
-    <div class="add-group col-sm-8">
-      <input type="text" name="newcompany" class="add-field form-control" ng-model="newcompany.name" required placeholder="New company">
-      <button type="submit" class="add-button btn btn-primary">Add</button>
+    <div class="add-group col-sm-12">
+      <form ng-submit="addCompany()">
+        <input type="text" name="newcompany" class="add-field form-control" ng-model="newcompany.name" required placeholder="New company">
+        <button type="submit" class="add-button btn btn-primary">Add</button>
+      </form>
     </div>
 
   </div>
 
-  <div class="buttons">
+  <div class="bottom-buttons">
     <button ng-click="undoRemoveCompany()" class="btn btn-default btn-lg active">Undo</button>
     <button ng-click="logOut()" class="btn btn-lg btn-danger active">Logout</button>
   </div>

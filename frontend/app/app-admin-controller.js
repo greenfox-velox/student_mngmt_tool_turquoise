@@ -12,6 +12,7 @@ managementApp.controller('adminController', ['$scope', '$http', '$state', '$loca
 
     $scope.addCompany = function() {
       $scope.companies.push({
+        id: $scope.companies.length + 1,
         name: $scope.newcompany.name,
         available: true
       });
@@ -19,22 +20,14 @@ managementApp.controller('adminController', ['$scope', '$http', '$state', '$loca
       $scope.newcompany.name = '';
     };
 
-    $scope.editCompany = function(company) {
-      return;
-    };
-
-    $scope.saveCompany = function(company) {
-      $scope.newcompany.name = company.name;
-    };
-
     $scope.removeCompany = function(company) {
       var removedCompany = $scope.companies.indexOf(company);
-      removedCompany.available = false;
+      $scope.companies[removedCompany].available = false;
     };
 
     $scope.undoRemoveCompany = function(company) {
       var removedCompany = $scope.companies.indexOf(company);
-      removedCompany.available = true;
+      $scope.companies[removedCompany].available = true;
     };
 
     $scope.logOut = function() {
