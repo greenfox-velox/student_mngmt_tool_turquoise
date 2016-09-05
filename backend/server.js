@@ -28,10 +28,7 @@ function newApp(connection) {
   app.use(passport.session());
 
   var studentDataBase = db(connection);
-
-  function emailValidator(email) {
-    return (/^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i.test(email));
-  }
+  const validEmail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
 
   app.get('/heartbeat', function(req, res) {
     studentDataBase.checkHeartBeat(function(err, result) {
@@ -77,7 +74,6 @@ function newApp(connection) {
   });
 
   app.get('/api/loggedin', function(req, res) {
-    console.log(req.user);
     if (req.user) {
       res.status(200).json({
         status: 'logged in'
@@ -95,6 +91,10 @@ function newApp(connection) {
   });
 
   app.post('/api/register', function(req, res) {
+    if (!validEmail.test(req.body.email)) {
+      res.sendStatus(500);
+      return;
+    }
     studentDataBase.registerNewUser(req.body, function(err, result) {
       if (err) {
         res.sendStatus(500);
