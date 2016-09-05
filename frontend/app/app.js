@@ -41,6 +41,12 @@ managementApp.config(function($stateProvider, $urlRouterProvider) {
       url: '/',
       templateUrl: 'partial-home.html',
       controller: 'homeController'
+    })
+
+    .state('admin', {
+      url: '/admin',
+      templateUrl: 'partial-admin.html',
+      controller: 'adminController'
     });
 });
 
