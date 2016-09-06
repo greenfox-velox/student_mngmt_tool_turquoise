@@ -28,12 +28,12 @@
             <form ng-if="editMode"><input type="text" name="newname" ng-model="company.name" required></form>
           </td>
           <div class="edit-delete">
-            <td class="edit_col col-sm-1"><button class="edit-button btn btn-primary btn-sm" ng-click="editing()"> Edit</td>
+            <td class="edit_col col-sm-1"><button class="edit-button btn btn-primary btn-sm" ng-click="editing(company)"> Edit</td>
             <td class="delete_col col-sm-1"><button class="delete-button btn btn-primary btn-sm" ng-click="removeCompany(company)">Delete</button></td>
           </div>
           <div class="save-cancel">
-            <td class="save_col col-sm-1"><button class="save-button btn btn-warning btn-sm" ng-if="editMode" ng-click="save()">Save</button></td>
-            <td class="cancel_col col-sm-1"><button class="cancel-button btn btn-warning btn-sm" ng-if="editMode" ng-click="cancel()">Cancel</button></td>
+            <td class="save_col col-sm-1"><button class="save-button btn btn-warning btn-sm" ng-if="editMode" ng-click="save(company)">Save</button></td>
+            <td class="cancel_col col-sm-1"><button class="cancel-button btn btn-warning btn-sm" ng-if="editMode" ng-click="cancel(company)">Cancel</button></td>
           </div>
         </tr>
       </tbody>

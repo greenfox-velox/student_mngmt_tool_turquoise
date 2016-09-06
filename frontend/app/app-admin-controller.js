@@ -20,24 +20,23 @@ managementApp.controller('adminController', ['$scope', '$http', '$state', '$loca
       $scope.newcompany.name = '';
     };
 
-    var editMode;
     $scope.normalMode = true;
     var nameOfEditedCompany = '';
 
     $scope.editing = function(company) {
       $scope.editMode = true;
       $scope.normalMode = false;
+      nameOfEditedCompany = company.name;
     };
 
     $scope.save = function(company) {
-      $scope.editedCompany = $scope.companies.indexOf(company);
-      $scope.nameOfEditedCompany = $scope.companies[editedCompany].name;
+      var editedCompany = $scope.companies.indexOf(company);
       $scope.editMode = false;
       $scope.normalMode = true;
     };
 
     $scope.cancel = function(company) {
-      $scope.company.name = nameOfEditedCompany;
+      $scope.companies[$scope.companies.indexOf(company)].name = nameOfEditedCompany;
       $scope.editMode = false;
       $scope.normalMode = true;
     };
