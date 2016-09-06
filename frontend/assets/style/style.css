@@ -42,32 +42,37 @@ table td {
   width: 80%;
 }
 
+.add-group {
+  display: block;
+  margin-bottom: 20px;
+}
+
 .add-button {
   display: inline;
-  float: right;
+  margin: 0 20px;
 }
 
 .bottom-buttons {
-  position: absolute;
-  bottom: 30px;
-  right: 30px;
+  float: right;
   display: block;
-  justify-content: flex-end;
 }
 
 .edit-button,
+.delete-button,
 .save-button,
 .cancel-button {
   display: none;
 }
 
 .edit-col,
+.delete-col,
 .save-col,
 .cancel-col {
   max-width: 40px;
 }
 
 tr:hover .edit-button,
+tr:hover .delete-button,
 tr:hover .save-button,
 tr:hover .cancel-button {
   display: block;
