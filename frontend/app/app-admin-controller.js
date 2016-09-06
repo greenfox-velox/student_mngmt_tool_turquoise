@@ -6,18 +6,24 @@ managementApp.controller('adminController', ['$scope', '$http', '$state', '$loca
   function($scope, $http, $state, $location, logger, userFunctions) {
     logger.info('admin controller');
 
-    $http.get('./data/companies.json').success(function(data) {
+    $http.get(getUrl($location) + '/admin').success(function(data) {
       $scope.companies = data;
     });
 
-    $scope.addCompany = function() {
-      $scope.companies.push({
-        id: $scope.companies.length + 1,
-        name: $scope.newcompany.name,
+    function companyMaker() {
+      return {
+        name: $scope.newCompany.name,
         available: true
-      });
+      };
+    }
 
+    $scope.addCompany = function() {
+      var companyToAdd = companyMaker();
+      $scope.companies.push(companyToAdd);
       $scope.newcompany.name = '';
+      $http.post(getUrl($location) + '/admin', companyToAdd).success(function(data) {
+        $scope.companies[$scope.companies.length - 1].id = data.company.id;
+      });
     };
 
     $scope.normalMode = true;
@@ -46,7 +52,7 @@ managementApp.controller('adminController', ['$scope', '$http', '$state', '$loca
       $scope.companies[removedCompany].available = false;
     };
 
-    $scope.undoRemoveCompany = function(company) {
+    $scope.undoRemoveCompany = function() {
       // var removedCompany = $scope.companies.indexOf(company);
       // $scope.companies[removedCompany].available = true;
       return;

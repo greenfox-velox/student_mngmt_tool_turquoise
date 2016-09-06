@@ -53,6 +53,26 @@ function newApp(connection) {
     });
   });
 
+  app.get('/admin', function(req, res) {
+    studentDataBase.getCompanyData(function(err, result) {
+      if (!err && result.length !== 0) {
+        res.send(result);
+      } else {
+        res.sendStatus(500);
+      }
+    });
+  });
+
+  app.post('/admin', function(req, res) {
+    studentDataBase.postCompanyData(function(err, result) {
+      if (!err && result.length !== 0) {
+        res.send(result);
+      } else {
+        res.sendStatus(500);
+      }
+    });
+  });
+
   app.post('/your', function(req, res) {
     studentDataBase.updateYourData(req.body, function(err, result) {
       if (!err && result.length !== 0) {
