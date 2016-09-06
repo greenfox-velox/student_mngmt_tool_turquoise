@@ -43,8 +43,8 @@ function newApp(connection) {
     });
   });
 
-  app.get('/your/:id', function(req, res) {
-    studentDataBase.getYourData(req.params.id, function(err, result) {
+  app.get('/your', function(req, res) {
+    studentDataBase.getYourData(req.user.id, function(err, result) {
       if (!err && result.length !== 0) {
         res.send(result);
       } else {
@@ -54,6 +54,7 @@ function newApp(connection) {
   });
 
   app.post('/your', function(req, res) {
+    req.body.queryUserId = req.user.id;
     studentDataBase.updateYourData(req.body, function(err, result) {
       if (!err && result.length !== 0) {
         res.send(result);
@@ -77,7 +78,6 @@ function newApp(connection) {
   });
 
   app.get('/api/loggedin', function(req, res) {
-    console.log(req.user);
     if (req.user) {
       res.status(200).json({
         status: 'logged in'

@@ -1,7 +1,6 @@
 var managementAppYour = angular.module('managementApp');
-var yourUser = 'peter@email.com';
 
-managementAppYour.controller('yourController', ['$scope', '$http', '$state', '$location', 'logger', function($scope, $http, $state, $location, logger) {
+managementAppYour.controller('yourController', ['$scope', '$http', '$state', '$location', 'logger', 'userFunctions', function($scope, $http, $state, $location, logger, userFunctions) {
   logger.info('your controller');
 
   $scope.showYourData = function(yourData) {
@@ -11,16 +10,15 @@ managementAppYour.controller('yourController', ['$scope', '$http', '$state', '$l
     $scope.yourGithub = yourData[0].github;
   };
 
-  $http.get(getUrl($location) + '/your/' + yourUser).success(function(yourData) {
+  $http.get('/your').success(function(yourData) {
     logger.info('yourController http get');
     $scope.showYourData(yourData);
   });
 
-  function updateYourData(whatChange, changedData, queryEmail) {
+  function updateYourData(whatChange, changedData) {
     var postData = {
       whatChange: whatChange,
-      changedData: changedData,
-      queryEmail: queryEmail
+      changedData: changedData
     };
     $http.post('/your', postData)
     .then(function successCallback() {
@@ -33,7 +31,7 @@ managementAppYour.controller('yourController', ['$scope', '$http', '$state', '$l
   $scope.modifyYourData = function(value, whatChange) {
     if ($scope.form.$valid) {
       logger.info('your controller - Valid input data');
-      updateYourData(whatChange, value, yourUser);
+      updateYourData(whatChange, value);
     } else {
       logger.warn('your controller - Not valid input data');
     }
