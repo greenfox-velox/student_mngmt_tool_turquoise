@@ -20,9 +20,9 @@ managementApp.controller('adminController', ['$scope', '$http', '$state', '$loca
     $scope.addCompany = function() {
       var companyToAdd = companyMaker();
       $scope.companies.push(companyToAdd);
-      $scope.newcompany.name = '';
       $http.post(getUrl($location) + '/admin', companyToAdd).success(function(data) {
-        $scope.companies[$scope.companies.length - 1].id = data.company.id;
+        $scope.companies[$scope.companies.length - 1].id = data.insertId;
+        $scope.newCompany.name = '';
       });
     };
 
@@ -37,8 +37,10 @@ managementApp.controller('adminController', ['$scope', '$http', '$state', '$loca
 
     $scope.save = function(company) {
       var editedCompany = $scope.companies.indexOf(company);
+      var editedCompanyData = {name: $scope.companies[editedCompany].name, id: $scope.companies[editedCompany].id};
       $scope.editMode = false;
       $scope.normalMode = true;
+      $http.put(getUrl($location) + '/admin', editedCompanyData).success(function() {});
     };
 
     $scope.cancel = function(company) {
@@ -49,13 +51,16 @@ managementApp.controller('adminController', ['$scope', '$http', '$state', '$loca
 
     $scope.removeCompany = function(company) {
       var removedCompany = $scope.companies.indexOf(company);
-      $scope.companies[removedCompany].available = false;
+      $http.delete(getUrl($location) + '/admin/' + $scope.companies[removedCompany].id).success(function() {});
+      $scope.companies.splice(removedCompany, 1);
     };
 
     $scope.undoRemoveCompany = function() {
-      // var removedCompany = $scope.companies.indexOf(company);
       // $scope.companies[removedCompany].available = true;
-      return;
+      // var removedCompanyData = [$scope.companies[removedCompany].available, $scope.companies[editedCompany].id];
+      // $http.put(getUrl($location) + '/admin', removedCompanyData).success(function(data) {
+      //   $scope.companies[$scope.companies.length - 1].id = data.company.id;
+      // });
     };
 
     $scope.logOut = function() {

@@ -63,8 +63,28 @@ function newApp(connection) {
     });
   });
 
+  app.delete('/admin/:id', function(req, res) {
+    studentDataBase.deleteCompany(req.params.id, function(err, result) {
+      if (!err && result.length !== 0) {
+        res.send(result);
+      } else {
+        res.sendStatus(500);
+      }
+    });
+  });
+
+  app.put('/admin', function(req, res) {
+    studentDataBase.updateCompanyData(req.body, function(err, result) {
+      if (!err && result.length !== 0) {
+        res.send(result);
+      } else {
+        res.sendStatus(500);
+      }
+    });
+  });
+
   app.post('/admin', function(req, res) {
-    studentDataBase.postCompanyData(function(err, result) {
+    studentDataBase.postCompanyData(req.body, function(err, result) {
       if (!err && result.length !== 0) {
         res.send(result);
       } else {

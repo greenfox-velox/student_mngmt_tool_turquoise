@@ -28,8 +28,8 @@
             <form ng-if="editMode"><input type="text" name="newname" ng-model="company.name" required></form>
           </td>
           <div class="edit-delete">
-            <td class="edit_col col-sm-1"><button class="edit-button btn btn-primary btn-sm" ng-click="editing(company)"> Edit</td>
-            <td class="delete_col col-sm-1"><button class="delete-button btn btn-primary btn-sm" ng-click="removeCompany(company)">Delete</button></td>
+            <td class="edit_col col-sm-1"><button ng-if="normalMode" class="edit-button btn btn-primary btn-sm" ng-click="editing(company)"> Edit</td>
+            <td class="delete_col col-sm-1"><button ng-if="normalMode" class="delete-button btn btn-primary btn-sm" ng-click="removeCompany(company)">Delete</button></td>
           </div>
           <div class="save-cancel">
             <td class="save_col col-sm-1"><button class="save-button btn btn-warning btn-sm" ng-if="editMode" ng-click="save(company)">Save</button></td>
@@ -41,7 +41,7 @@
 
     <div class="add-group col-sm-12">
       <form ng-submit="addCompany()">
-        <input type="text" name="newcompany" class="add-field form-control" ng-model="newcompany.name" required placeholder="Name of new company">
+        <input type="text" name="newcompany" class="add-field form-control" ng-model="newCompany.name" required placeholder="Name of new company">
         <button type="submit" class="add-button btn btn-primary">Add</button>
       </form>
     </div>

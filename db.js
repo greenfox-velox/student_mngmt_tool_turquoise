@@ -34,7 +34,21 @@ var Database = function(connection) {
   }
 
   function postCompanyData(newCompany, cb) {
-    connection.query('INSERT INTO companies SET ?;', newCompany, function(err, row) {
+    connection.query('INSERT INTO companies SET ?;', newCompany, function(err, rows) {
+      errorHandler(err);
+      cb(err, rows);
+    });
+  }
+
+  function updateCompanyData(company, cb) {
+    connection.query('UPDATE companies SET companies.name = ? WHERE companies.id = ?;', [company.name, company.id], function(err, rows) {
+      errorHandler(err);
+      cb(err, rows);
+    });
+  }
+
+  function deleteCompany(company, cb) {
+    connection.query('UPDATE companies SET companies.available = 0 WHERE companies.id = ?;', company, function(err, rows) {
       errorHandler(err);
       cb(err, rows);
     });
@@ -83,7 +97,9 @@ var Database = function(connection) {
     loginUser: loginUser,
     getUserById: getUserById,
     getCompanyData: getCompanyData,
-    postCompanyData: postCompanyData
+    postCompanyData: postCompanyData,
+    updateCompanyData: updateCompanyData,
+    deleteCompany: deleteCompany
   };
 };
 
