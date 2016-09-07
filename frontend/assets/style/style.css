@@ -9,3 +9,71 @@ input.ng-invalid.ng-dirty {
 .navbar {
   border-radius:0;
 }
+
+.page-body {
+  position: relative;
+}
+
+.glyphicon {
+  float: right;
+}
+
+h3 {
+  margin-top: 20px;
+}
+
+th {
+  text-align: left;
+  background: #a6a6a6;
+}
+
+table th,
+table td {
+  padding: 0 15px;
+}
+
+.delete_col:hover {
+  cursor: pointer;
+}
+
+.add-field {
+  display: inline;
+  float: left;
+  width: 80%;
+}
+
+.add-group {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.add-button {
+  display: inline;
+  margin: 0 20px;
+}
+
+.bottom-buttons {
+  float: right;
+  display: block;
+}
+
+.edit-button,
+.delete-button,
+.save-button,
+.cancel-button {
+  display: none;
+}
+
+.edit-col,
+.delete-col,
+.save-col,
+.cancel-col {
+  max-width: 40px;
+}
+
+tr:hover .edit-button,
+tr:hover .delete-button,
+tr:hover .save-button,
+tr:hover .cancel-button {
+  display: block;
+}

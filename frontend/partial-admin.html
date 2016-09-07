@@ -1,0 +1,56 @@
+<div class="main-body" ng-controller="adminController">
+  <div class="page-body">
+
+    <div class="jumbotron text-center">
+      <h1>The list of companies</h1>
+    </div>
+
+    <table data-toggle="table" class="table table-hover table-striped">
+      <thead class="thead-inverse">
+        <tr>
+          <th class="id_col col-sm-1" ng-click="order = 'id'">Id</th>
+          <th class="name_col col-sm-7">Name
+           <span class="glyphicon glyphicon-chevron-down" ng-click="order = 'name'"></span>
+           <span class="glyphicon glyphicon-chevron-up" ng-click="order = '-name'"></span>
+          </th>
+          <th class="edit_col col-sm-1"></th>
+          <th class="delete_col col-sm-1"></th>
+          <th class="save_col col-sm-1"></th>
+          <th class="cancel_col col-sm-1"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr ng-repeat="company in companies | orderBy: order" ng-show="company.available">
+          <td class="id_col col-sm-1">{{company.id}}</td>
+          <td class="name_col col-sm-7">
+            <p ng-if="normalMode">{{company.name}}<p>
+            <form ng-if="editMode"><input type="text" name="newname" ng-model="company.name" required></form>
+          </td>
+          <div class="edit-delete">
+            <td class="edit_col col-sm-1"><button ng-if="normalMode" class="edit-button btn btn-primary btn-sm" ng-click="editing(company)"> Edit</td>
+            <td class="delete_col col-sm-1"><button ng-if="normalMode" class="delete-button btn btn-primary btn-sm" ng-click="removeCompany(company)">Delete</button></td>
+          </div>
+          <div class="save-cancel">
+            <td class="save_col col-sm-1"><button class="save-button btn btn-warning btn-sm" ng-if="editMode" ng-click="save(company)">Save</button></td>
+            <td class="cancel_col col-sm-1"><button class="cancel-button btn btn-warning btn-sm" ng-if="editMode" ng-click="cancel(company)">Cancel</button></td>
+          </div>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="add-group col-sm-12">
+      <form ng-submit="addCompany()">
+        <input type="text" name="newcompany" class="add-field form-control" ng-model="newCompany.name" required placeholder="Name of new company">
+        <button type="submit" class="add-button btn btn-primary">Add</button>
+      </form>
+    </div>
+
+  </div>
+
+  <div class="bottom-buttons">
+    <button ng-click="undoRemoveCompany()" class="btn btn-default btn-lg active">Undo</button>
+    <button ng-click="logOut()" class="btn btn-lg btn-danger active">Logout</button>
+  </div>
+
+</div>

@@ -26,6 +26,42 @@ var Database = function(connection) {
     });
   }
 
+  function getCompanyData(cb) {
+    connection.query('SELECT * FROM companies;', function(err, rows) {
+      errorHandler(err);
+      cb(err, rows);
+    });
+  }
+
+  function postCompanyData(newCompany, cb) {
+    connection.query('INSERT INTO companies SET ?;', newCompany, function(err, rows) {
+      errorHandler(err);
+      cb(err, rows);
+    });
+  }
+
+  function updateCompanyData(company, cb) {
+    connection.query('UPDATE companies SET companies.name = ? WHERE companies.id = ?;', [company.name, company.id], function(err, rows) {
+      errorHandler(err);
+      cb(err, rows);
+    });
+  }
+
+  function deleteCompany(company, cb) {
+    connection.query('UPDATE companies SET companies.available = 0 WHERE companies.id = ?;', company, function(err, rows) {
+      errorHandler(err);
+      cb(err, rows);
+    });
+  }
+
+  function undoDeleteCompany(company, cb) {
+    console.log(company);
+    connection.query('UPDATE companies SET companies.available = 1 WHERE companies.id = ?;', company.id, function(err, rows) {
+      errorHandler(err);
+      cb(err, rows);
+    });
+  }
+
   function getYourData(queryEmail, callback) {
     // final email change to user id if login works
     var newQuery = 'SELECT * FROM users WHERE users.email LIKE (?);';
@@ -67,7 +103,12 @@ var Database = function(connection) {
     getYourData: getYourData,
     registerNewUser: registerNewUser,
     loginUser: loginUser,
-    getUserById: getUserById
+    getUserById: getUserById,
+    getCompanyData: getCompanyData,
+    postCompanyData: postCompanyData,
+    updateCompanyData: updateCompanyData,
+    deleteCompany: deleteCompany,
+    undoDeleteCompany: undoDeleteCompany
   };
 };
 

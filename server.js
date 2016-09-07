@@ -53,6 +53,56 @@ function newApp(connection) {
     });
   });
 
+  app.get('/admin', function(req, res) {
+    studentDataBase.getCompanyData(function(err, result) {
+      if (!err && result.length !== 0) {
+        res.send(result);
+      } else {
+        res.sendStatus(500);
+      }
+    });
+  });
+
+  app.delete('/admin/:id', function(req, res) {
+    studentDataBase.deleteCompany(req.params.id, function(err, result) {
+      if (!err && result.length !== 0) {
+        res.send(result);
+      } else {
+        res.sendStatus(500);
+      }
+    });
+  });
+
+  app.put('/admin', function(req, res) {
+    studentDataBase.updateCompanyData(req.body, function(err, result) {
+      if (!err && result.length !== 0) {
+        res.send(result);
+      } else {
+        res.sendStatus(500);
+      }
+    });
+  });
+
+  app.put('/undo', function(req, res) {
+    studentDataBase.undoDeleteCompany(req.body, function(err, result) {
+      if (!err && result.length !== 0) {
+        res.send(result);
+      } else {
+        res.sendStatus(500);
+      }
+    });
+  });
+
+  app.post('/admin', function(req, res) {
+    studentDataBase.postCompanyData(req.body, function(err, result) {
+      if (!err && result.length !== 0) {
+        res.send(result);
+      } else {
+        res.sendStatus(500);
+      }
+    });
+  });
+
   app.post('/your', function(req, res) {
     studentDataBase.updateYourData(req.body, function(err, result) {
       if (!err && result.length !== 0) {
