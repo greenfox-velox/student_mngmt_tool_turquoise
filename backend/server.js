@@ -6,11 +6,11 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var logger = require('./backend_logger')();
 var session = require('express-session');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+var authentication = require('./authentication');
 
 function newApp(connection) {
   var app = express();
+  var passport = authentication(connection);
   app.use(bodyParser.json());
   app.use(express.static('frontend'));
   app.use(function(req, res, next) {
@@ -28,10 +28,7 @@ function newApp(connection) {
   app.use(passport.session());
 
   var studentDataBase = db(connection);
-
-  function emailValidator(email) {
-    return (/^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i.test(email));
-  }
+  var validEmail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
 
   app.get('/heartbeat', function(req, res) {
     studentDataBase.checkHeartBeat(function(err, result) {
@@ -43,8 +40,8 @@ function newApp(connection) {
     });
   });
 
-  app.get('/your/:id', function(req, res) {
-    studentDataBase.getYourData(req.params.id, function(err, result) {
+  app.get('/your', function(req, res) {
+    studentDataBase.getYourData(req.user.id, function(err, result) {
       if (!err && result.length !== 0) {
         res.send(result);
       } else {
@@ -104,6 +101,7 @@ function newApp(connection) {
   });
 
   app.post('/your', function(req, res) {
+    req.body.queryUserId = req.user.id;
     studentDataBase.updateYourData(req.body, function(err, result) {
       if (!err && result.length !== 0) {
         res.send(result);
@@ -127,7 +125,6 @@ function newApp(connection) {
   });
 
   app.get('/api/loggedin', function(req, res) {
-    console.log(req.user);
     if (req.user) {
       res.status(200).json({
         status: 'logged in'
@@ -145,6 +142,10 @@ function newApp(connection) {
   });
 
   app.post('/api/register', function(req, res) {
+    if (!validEmail.test(req.body.email)) {
+      res.sendStatus(500);
+      return;
+    }
     studentDataBase.registerNewUser(req.body, function(err, result) {
       if (err) {
         res.sendStatus(500);
@@ -159,35 +160,6 @@ function newApp(connection) {
       });
     });
   });
-
-  passport.serializeUser(function(user, done) {
-    done(null, user.id);
-  });
-
-  passport.deserializeUser(function(id, done) {
-    studentDataBase.getUserById(id, function(err, user) {
-      done(err, user);
-    });
-  });
-
-  passport.use(new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password'
-  },
-    function(email, password, done) {
-      studentDataBase.loginUser(email, function(err, user) {
-        if (err) { return done(err); }
-        if (!user) {
-          return done(null, false, { message: 'Incorrect email.' });
-        }
-        if (password !== user.password) {
-          return done(null, false, { message: 'Incorrect password.' });
-        }
-        return done(null, user);
-      });
-    }
-  ));
-
   return app;
 }
 

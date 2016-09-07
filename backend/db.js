@@ -62,17 +62,15 @@ var Database = function(connection) {
     });
   }
 
-  function getYourData(queryEmail, callback) {
-    // final email change to user id if login works
-    var newQuery = 'SELECT * FROM users WHERE users.email LIKE (?);';
-    var table = [queryEmail];
+  function getYourData(queryUserId, callback) {
+    var newQuery = 'SELECT * FROM users WHERE users.id LIKE (?);';
+    var table = [queryUserId];
     getQuery(newQuery, table, callback);
   }
 
   function updateYourData(inputData, callback) {
-    // final email change to user id if login works
-    var newQuery = 'UPDATE users SET ?? = ? WHERE users.email LIKE ?;';
-    var table = [inputData.whatChange, inputData.changedData, inputData.queryEmail];
+    var newQuery = 'UPDATE studentmanager.users SET ?? = ? WHERE id = ?;';
+    var table = [inputData.whatChange, inputData.changedData, inputData.queryUserId];
     getQuery(newQuery, table, callback);
   }
 
