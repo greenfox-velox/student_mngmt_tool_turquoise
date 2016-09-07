@@ -19,7 +19,9 @@ module.exports = function(config) {
       '../node_modules/angular-mocks/angular-mocks.js',
       '../node_modules/angular-ui-router/release/angular-ui-router.js',
       '../frontend/app/app.js',
+      '../frontend/app/geturl.js',
       '../frontend/app/frontend-logger.js',
+      '../frontend/app/app-register-controller.js',
       'unit/*.js'
     ],
 
