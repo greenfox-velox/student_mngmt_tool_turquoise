@@ -49,18 +49,22 @@ managementApp.controller('adminController', ['$scope', '$http', '$state', '$loca
       $scope.normalMode = true;
     };
 
+    var removedCompanyId;
+
     $scope.removeCompany = function(company) {
-      var removedCompany = $scope.companies.indexOf(company);
-      $http.delete(getUrl($location) + '/admin/' + $scope.companies[removedCompany].id).success(function() {});
-      $scope.companies.splice(removedCompany, 1);
+      removedCompanyId = $scope.companies[$scope.companies.indexOf(company)].id;
+      $http.delete(getUrl($location) + '/admin/' + removedCompanyId).success(function() {});
+      $scope.companies[$scope.companies.indexOf(company)].available = 0;
     };
 
     $scope.undoRemoveCompany = function() {
-      // $scope.companies[removedCompany].available = true;
-      // var removedCompanyData = [$scope.companies[removedCompany].available, $scope.companies[editedCompany].id];
-      // $http.put(getUrl($location) + '/admin', removedCompanyData).success(function(data) {
-      //   $scope.companies[$scope.companies.length - 1].id = data.company.id;
-      // });
+      $scope.companies.forEach(function(e, i) {
+        if (e.id === removedCompanyId) {
+          $scope.companies[i].available = 1;
+        }
+      });
+      var removedCompany = {id: removedCompanyId};
+      $http.put(getUrl($location) + '/undo', removedCompany).success(function() {});
     };
 
     $scope.logOut = function() {

@@ -54,6 +54,14 @@ var Database = function(connection) {
     });
   }
 
+  function undoDeleteCompany(company, cb) {
+    console.log(company);
+    connection.query('UPDATE companies SET companies.available = 1 WHERE companies.id = ?;', company.id, function(err, rows) {
+      errorHandler(err);
+      cb(err, rows);
+    });
+  }
+
   function getYourData(queryEmail, callback) {
     // final email change to user id if login works
     var newQuery = 'SELECT * FROM users WHERE users.email LIKE (?);';
@@ -99,7 +107,8 @@ var Database = function(connection) {
     getCompanyData: getCompanyData,
     postCompanyData: postCompanyData,
     updateCompanyData: updateCompanyData,
-    deleteCompany: deleteCompany
+    deleteCompany: deleteCompany,
+    undoDeleteCompany: undoDeleteCompany
   };
 };
 

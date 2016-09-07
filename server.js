@@ -83,6 +83,16 @@ function newApp(connection) {
     });
   });
 
+  app.put('/undo', function(req, res) {
+    studentDataBase.undoDeleteCompany(req.body, function(err, result) {
+      if (!err && result.length !== 0) {
+        res.send(result);
+      } else {
+        res.sendStatus(500);
+      }
+    });
+  });
+
   app.post('/admin', function(req, res) {
     studentDataBase.postCompanyData(req.body, function(err, result) {
       if (!err && result.length !== 0) {
