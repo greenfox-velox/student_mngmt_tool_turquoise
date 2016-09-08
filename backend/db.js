@@ -55,7 +55,6 @@ var Database = function(connection) {
   }
 
   function undoDeleteCompany(company, cb) {
-    console.log(company);
     connection.query('UPDATE companies SET companies.available = 1 WHERE companies.id = ?;', company.id, function(err, rows) {
       errorHandler(err);
       cb(err, rows);
