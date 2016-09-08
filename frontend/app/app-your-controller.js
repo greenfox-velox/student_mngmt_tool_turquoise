@@ -12,6 +12,9 @@ managementAppYour.controller('yourController', ['$scope', '$http', '$state', '$l
 
   $http.get('/your').success(function(yourData) {
     logger.info('yourController http get');
+    if (yourData[0].admin) {
+      $scope.admin = true;
+    }
     $scope.showYourData(yourData);
   });
 
