@@ -22,6 +22,8 @@ module.exports = function(config) {
       '../frontend/app/geturl.js',
       '../frontend/app/frontend-logger.js',
       '../frontend/app/app-register-controller.js',
+      '../frontend/app/userfactory.js',
+      '../frontend/app/app-admin-controller.js',
       'unit/*.js'
     ],
 
