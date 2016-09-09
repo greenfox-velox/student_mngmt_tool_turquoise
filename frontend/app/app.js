@@ -54,7 +54,9 @@ managementApp.controller('homeController', ['$scope', '$http', '$state', '$locat
   logger.info('home controller');
 
   $scope.logOut = function() {
-    userFunctions.logOut();
+    userFunctions.logOut().then(function successCallback(response) {
+      $state.go('home');
+    });
   };
 
   $http.get(getUrl($location) + '/api/loggedin')

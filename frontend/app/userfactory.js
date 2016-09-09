@@ -6,10 +6,7 @@ managementApp.factory('userFunctions', function($http, $location, $state) {
 
   return {
     logOut: function() {
-      $http.get(getUrl($location) + '/api/logout')
-      .then(function successCallback(response) {
-        $state.go('home');
-      });
+      return $http.get(getUrl($location) + '/api/logout');
     },
     logIn: function() {
     }
